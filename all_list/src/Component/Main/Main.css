@@ -1,0 +1,34 @@
+nav {
+  border-bottom: 1px solid black;
+  text-align: center;
+}
+
+li {
+  padding: 10px;
+  list-style-type:none;
+  border: 1px solid black;
+  width: 150px;
+  height: 100px;
+  
+}
+
+.main_boards {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.boards {
+  margin-right: 30px;
+  margin-bottom: 30px;
+}
+
+.main_center {
+  margin-top: 50px;
+  margin-left: 170px;
+  margin-right: 150px;
+}
+
+.main_username {
+  font-size: 30px;
+  padding-bottom: 50px;
+}
