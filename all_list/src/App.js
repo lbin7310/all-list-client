@@ -5,13 +5,14 @@ import Login from './Pages/Login';
 import Main from './Pages/Main';
 import Team from './Pages/Team';
 
+
 class App extends React.Component {
-  constructor () {
-    super()
-    this.state = {}
+  constructor() {
+    super();
+    this.state = {};
   }
 
-  render () {
+  render() {
     return (
       <Router>
         <div>
