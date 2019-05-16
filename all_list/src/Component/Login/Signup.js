@@ -1,6 +1,27 @@
 import React from "react";
 
 class Signup extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      email: "",
+      user: "",
+      password: ""
+    };
+  }
+  handleEmail = e => {
+    this.setState({
+      email: e.target.value
+    });
+  };
+
+  handleUser = e => {
+    this.setState({
+      user: e.target.user
+    })
+  }
+
   render() {
     return (
       <div>
@@ -10,12 +31,20 @@ class Signup extends React.Component {
         <form>
           <div>
             <span>Email</span>
-            <input />
+            <input
+              placeholder="이메일을 입력하세요"
+              value={this.state.email}
+              onChange={this.handleEmail}
+            />
             <button>중복체크</button>
           </div>
           <div>
             <span>User Name</span>
-            <input />
+            <input
+              placeholder="이름을 입력하세요"
+              value={this.state.user}
+              onChange={this.handleUser}
+            />
             <button>중복체크</button>
           </div>
           <div>
