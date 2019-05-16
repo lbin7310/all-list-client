@@ -1,0 +1,26 @@
+.side_bar {
+  position: fixed;
+  height: 100%;
+  right: 10px;
+  padding-top: 25px;
+  padding-left: 15px;
+  padding-right: 10px;
+  border-left: 1px solid black;
+  width: 225px;
+}
+
+.top_location_private {
+  padding-bottom: 30px;
+}
+
+nav {
+  padding-top: 20px;
+  padding-bottom: 30px;
+  border-bottom: 1px solid black;
+  display: flex;
+  justify-content: space-between;
+}
+
+li {
+  padding-bottom: 5px;
+}

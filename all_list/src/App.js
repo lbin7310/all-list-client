@@ -1,8 +1,9 @@
-import React from "react";
+import React from 'react';
+import Board from './Component/Board/board'
 import Team from "./Component/Team/Team";
 
 class App extends React.Component {
-  constructor() {
+  constructor () {
     super()
     this.state = {}
   }
@@ -10,6 +11,7 @@ class App extends React.Component {
   render () {
     return (
       <div>
+        <Board />
         <Team />
       </div>
     )
