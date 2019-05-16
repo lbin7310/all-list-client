@@ -1,4 +1,5 @@
 import React from 'react';
+import Board from './Component/Board/board'
 
 class App extends React.Component {
   constructor () {
@@ -9,6 +10,7 @@ class App extends React.Component {
   render () {
     return (
       <div>
+        <Board />
       </div>
     )
   }
