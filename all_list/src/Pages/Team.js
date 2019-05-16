@@ -1,5 +1,5 @@
 import React from "react";
-import MemberList from "./MemberList"
+import MemberList from "../Component/Team/MemberList"
 import "./Team.css";
 
 class Team extends React.Component {
