@@ -38,13 +38,13 @@ class Login extends React.Component {
     };
     fetch("http://localhost:9089/login", login_info)
     .then(this.props.history.push("/main"))
-      .then(res => res.json())
-      .then(json => {
-        this.setState({
-          email: json.email,
-          password: json.password
-        })
-      });
+    // .then(res => res.json())
+    // .then(json => {
+    //     this.setState({
+    //       email: json.email,
+    //       password: json.password
+    //     })
+    //   });
   };
 
   render() {
