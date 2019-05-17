@@ -1,6 +1,7 @@
 import React from "react";
 import Signup from "../Component/Login/Signup";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import Nickname from "../Component/Login/Nickname";
 
 class Login extends React.Component {
   constructor(props) {
@@ -8,7 +9,8 @@ class Login extends React.Component {
 
     this.state = {
       email: "",
-      password: ""
+      password: "",
+      nickname: null
     };
   }
 
@@ -35,8 +37,14 @@ class Login extends React.Component {
       }
     };
     fetch("http://localhost:9089/login", login_info)
+    .then(this.props.history.push("/main"))
       .then(res => res.json())
-      .then(json => console.log(json));
+      .then(json => {
+        this.setState({
+          email: json.email,
+          password: json.password
+        })
+      });
   };
 
   render() {
@@ -62,13 +70,12 @@ class Login extends React.Component {
             </div>
             <div>
               <button type="submit">로그인</button>
-              <button>
-                <Link to="/signup">회원가입</Link>
+              <button onClick={() => this.props.history.push("/signup")}>
+                회원가입
               </button>
             </div>
           </form>
         </div>
-        <Route path="/signup" component={Signup}></Route>      
       </Router>
     );
   }
