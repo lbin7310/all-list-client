@@ -167,7 +167,7 @@ class Signup extends React.Component {
 
     const signupInfo = {
       email: this.state.emailCheck,
-      password: this.state.pwCheck,
+      pw: this.state.pwCheck,
       nickname: this.state.nicknameCheck
     };
 
