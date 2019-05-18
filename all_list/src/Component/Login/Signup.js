@@ -136,7 +136,7 @@ class Signup extends React.Component {
     };
 
     if (chkPwd(this.state.re_pw) === false) {
-      alert("영문,숫자를 혼합하여 6~20자 이내");
+      alert("영문,숫자를 혼합하여 6~12자 이내");
       this.setState({
         pw: "",
         re_pw: ""
@@ -188,7 +188,7 @@ class Signup extends React.Component {
     ) {
       fetch("http://localhost:9089/user", signup_info)
         .then(alert("가입이 완료되었습니다."))
-        .then(this.props.history.push("/login"));
+          .then(this.props.history.push("/login"));
     } else {
       alert("입력값을 확인해주세요");
     }
