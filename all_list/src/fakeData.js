@@ -1,54 +1,31 @@
-export const fakeData = [
-  { userId: '가나다',
-    section: {
-      private_boards: [
-        { board_title: '라마바',
-          board_description: '세종대와 한글창제',
-          board_lists: [
-            { list_title: '사아자',
-              list_cards: {
-                description: [
-                  '차카타파하',
-                  '우와와',
-                  '이야양'
-                ]
-              }
-            },
-            { list_title: '나랏말쌈이',
-              list_cards: {
-                description: [
-                  '궁극에 달아',
-                  '널리 이롭게',
-                  '훈민정음을 전파한다.'
-                ]
-              }
-            }
-          ]
-        },
-        { board_title: '정조',
-          board_description: '신하들아 까불지 마라.',
-          board_lists: [
-            { list_title: '어허, 백성들은 들어라.',
-              list_cards: {
-                description: [
-                  '달을 보고 나를 생각해라.',
-                  '내가 달을 통해 모든 곳을 보고 있으니',
-                  '허튼 짓 하지마라'
-                ]
-              }
-            },
-            { list_title: '어이, 신하들아 나랑 대결하려면 책 좀 읽고와',
-              list_cards: {
-                description: [
-                  '한권을 백번 이상 읽었니?',
-                  '넌 내 적수가 안되.',
-                  '어~ 책 더 읽고와.'
-                ]
-              }
-            }
-          ]
-        }
-      ] // ,한칸 띄우고 teamData넣기.
-    }
-  }
-]
+export const fakeData = {
+  topSiderBar: [
+    { boardName: '세종대왕', description: '세종대왕 한글창제', section: 'Private Board', nickName: 'Saram' },
+    { boardName: '정조', description: '신하들은 듣거라', section: 'Private Board', nickName: 'Saram' },
+    { boardName: '축구', description: '이번 손흥민 경기', section: 'Team Board', nickName: 'Saram' }
+  ],
+  list: [
+    { listName: '사아자', boardName: '세종대왕' },
+    { listName: '나랏말쌈이', boardName: '세종대왕' },
+    { listName: '어허,백성들은 들어라.', boardName: '정조' },
+    { listName: '어이!', boardName: '정조' },
+    { listName: '가고싶다.', boardName: '축구' },
+    { listName: '어디서하지?', boardName: '축구' }
+  ],
+  card: [
+    { todo: '차카타파하', listName: '사아자', boardName: '세종대왕' },
+    { todo: '우와와', listName: '사아자', boardName: '세종대왕' },
+    { todo: '이야양', listName: '사아자', boardName: '세종대왕' },
+    { todo: '궁긍에 달아', listName: '나랏말쌈이', boardName: '세종대왕' },
+    { todo: '널리이롭게', listName: '나랏말쌈이', boardName: '세종대왕' },
+    { todo: '한권을 백번 이상 읽었니?', listName: '어이!', boardName: '정조' },
+    { todo: '넌 내 적수가 안되.', listName: '어이!', boardName: '정조' },
+    { todo: '어~ 책 더 읽고와.', listName: '어이!', boardName: '정조' },
+    { todo: '손흥민 한 골 넣자.', listName: '가고싶다.', boardName: '축구' },
+    { todo: '우와와', listName: '가고싶다.', boardName: '축구' },
+    { todo: '이야양', listName: '가고싶다.', boardName: '축구' },
+    { todo: '챔피언스 리그에서 하지.', listName: '어디서 하지?.', boardName: '축구' },
+    { todo: '06월 02일 새벽 4시', listName: '어디서 하지?.', boardName: '축구' },
+    { todo: '다함께 봅시다.', listName: '어디서 하지?.', boardName: '축구' }
+  ]
+}
