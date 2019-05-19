@@ -1,6 +1,5 @@
 import React from 'react';
 import './Main.css'
-import { fakeData } from '../fakeData';
 
 export default class Main extends React.Component {
   constructor () {

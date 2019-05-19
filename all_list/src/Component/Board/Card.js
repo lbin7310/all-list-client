@@ -2,22 +2,20 @@ import React from 'react';
 import './Card.css';
 
 let Card = (props) => {
-  console.log(props);
-  let list = props.listName;
-  let card = props.card
-  let cardTodo = [];
-  for (let i = 0; i < card.length; i++) {
-    if (list.listName === card[i].listName &&
-       list.boardName === card[i].boardName &&
-       list.isPrivate === card[i].isPrivate) {
-      cardTodo.push(card[i].todo)
+  let collectCard = [];
+  console.log(props.listIdx);
+  for (let i = 0; i < props.data.length; i++) {
+    if (props.data[i].board_idx === props.boardIdx &&
+        props.data[i].list_idx === Number(props.listIdx)) {
+      collectCard.push(props.data[i]);
     }
   }
-  console.log(cardTodo);
+
+  console.log(collectCard);
   return (
     <div className="cards">
-      {cardTodo.map((todo, i) => {
-        return <div className="card" key={i}>{todo}</div>
+      {collectCard.map(data => {
+        return <li key={data.origin_card_idx}>{data.card_desc}</li>
       })}
     </div>
   )
