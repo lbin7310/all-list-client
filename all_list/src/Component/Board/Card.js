@@ -1,31 +1,26 @@
 import React from 'react';
 import './Card.css';
 
-export default class Card extends React.Component {
-  constructor () {
-    super()
-    this.state = {}
+let Card = (props) => {
+  console.log(props);
+  let list = props.listName;
+  let card = props.card
+  let cardTodo = [];
+  for (let i = 0; i < card.length; i++) {
+    if (list.listName === card[i].listName &&
+       list.boardName === card[i].boardName &&
+       list.isPrivate === card[i].isPrivate) {
+      cardTodo.push(card[i].todo)
+    }
   }
-
-  render () {
-    return (
-      <div className="cards">
-        <div className="card">
-          알바
-        </div>
-        <div className="card">
-          직장
-        </div>
-        <div className="card">
-          흰머리 뽑기
-        </div>
-        <div className="card">
-          세차하기
-        </div>
-        <div className="card">
-          알바
-        </div>
-      </div>
-    )
-  }
+  console.log(cardTodo);
+  return (
+    <div className="cards">
+      {cardTodo.map((todo, i) => {
+        return <div className="card" key={i}>{todo}</div>
+      })}
+    </div>
+  )
 }
+
+export default Card;

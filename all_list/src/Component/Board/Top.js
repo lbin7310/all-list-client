@@ -1,10 +1,14 @@
 import React from 'react';
 
-let Top = () => {
+let Top = (props) => {
+  console.log(props.data);
   return (
     <nav>
-      <div>안녕하세요. Every-List입니다.</div>
-      <div>2019.00.00</div>
+      <div>
+        <div>{props.data.board_title}</div>
+        <div>{props.data.board_desc}</div>
+      </div>
+      <div>2019</div>
     </nav>
   )
 }
