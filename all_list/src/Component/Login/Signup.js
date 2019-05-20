@@ -178,9 +178,12 @@ class Signup extends React.Component {
         "Content-Type": "application/json"
       }
     };
-    
+
     if (
-      email && nickname && pw && re_pw &&
+      email &&
+      nickname &&
+      pw &&
+      re_pw &&
       email === emailCheck &&
       nickname === nicknameCheck &&
       pw === re_pw &&
@@ -188,7 +191,7 @@ class Signup extends React.Component {
     ) {
       fetch("http://localhost:9089/user", signup_info)
         .then(alert("가입이 완료되었습니다."))
-          .then(this.props.history.push("/login"));
+        .then(this.props.history.push("/login"));
     } else {
       alert("입력값을 확인해주세요");
     }

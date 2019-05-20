@@ -8,7 +8,7 @@ class Login extends React.Component {
     super(props);
 
     this.state = {
-      idx: null,
+      origin_user_idx: null,
       email: "",
       pw: "",
       nickname: "",
@@ -43,6 +43,7 @@ class Login extends React.Component {
         return res.json();
       })
       .then(json => {
+        console.log(json)
         //json형식 {idx: 8, nickname: "noh", email: "noh@gmail.com", success: true}
         if (json.success === true) {
           alert("로그인되었습니다");
@@ -50,7 +51,7 @@ class Login extends React.Component {
           window.localStorage.setItem('userInfo', JSON.stringify(json))
           //스테이트에 유저정보를 저장한다.
           this.setState({
-            idx: json.idx,
+            idx: json.origin_user_idx,
             email: json.email,
             nickname: json.nickname,
             isLogin: json.success
@@ -88,7 +89,7 @@ class Login extends React.Component {
             </div>
             <div>
               {/* 로그인버튼 , 회원가입버튼*/}
-              <button type="submit">로그인</button>
+              <button onClick={this.handleSubmit}>로그인</button>
               {/* 회원가입 버튼 클릭 -> /signup페이지로 이동 */}
               <button onClick={() => this.props.history.push("/signup")}>
                 회원가입

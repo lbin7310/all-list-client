@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 import Board from "./Pages/Board";
 import Login from "./Pages/Login";
 import Main from "./Pages/Main";
@@ -16,11 +16,13 @@ class App extends React.Component {
     return (
       <Router>
         <div>
-          <Route path="/login" component={Login} />
-          <Route path="/signup" component={Signup} />
-          <Route path="/main" component={Main} />
-          <Route path="/board" component={Board} />
-          <Route path="/team" component={Team} />
+          <Switch>
+            <Route path="/login" component={Login} />
+            <Route path="/signup" component={Signup} />
+            <Route path="/main" component={Main} />
+            <Route path="/board" component={Board} />
+            <Route path="/team" component={Team} />
+          </Switch>
         </div>
       </Router>
     );

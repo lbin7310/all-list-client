@@ -28,27 +28,30 @@ class Team extends React.Component {
     //addUser의 형태는 {nickname: , email: , origin_user_idx: }
     this.state = {
       modal: false,
-      memberList: null,
+      memberList: [{email : "이메일", nickname: "닉네임", origin_user_idx: 1}], //<-- fakedata
       searchValue: "",
       addUser: null
     };
   }
 
-  handleOpenModal = () => {
+  handleOpenModal = (e) => {
+    e.preventDefault();
     this.setState({
       modal: true
     });
   };
 
-  handleCloseModal = () => {
+  handleCloseModal = (e) => {
+    e.preventDefault();
     this.setState({
       modal: false
     });
   };
 
-  addMemberList = () => {
+  addMemberList = e => {
     e.preventDefault();
     //새로 등록할 친구를 db에 저장 했다가, 새로 업데이트된 멤버리스트를 다시 받아와야함
+     //memberList의 형태는 [{nickname: , email: ,origin_user_idx: }, {nickname: , email: ,origin_user_dix: }]
     const newMember = {
       method: "POST",
       body: JSON.stringify(this.state.addUser),
@@ -61,53 +64,65 @@ class Team extends React.Component {
       .then(json => {
         this.setState({
           memberList: json
-        })
-      });
-  };
-
-  componentDidMount = () => {
-    const currentBoardInfo = {
-      method: "POST",
-      body: JSON.stringify(this.props.origin_board_idx),
-      headers: {
-        "Content-Type": "application/json"
-      }
-    };
-    fetch("http://localhost:9089/team", currentBoardInfo)
-      .then(res => res.json())
-      .then(json => {
-        //json은 회원목록이 담긴 객체형태여야한다.
-        this.setState({
-          memberList: json
         });
       });
   };
+
 
   handleSearch = e => {
     e.preventDefault();
     this.setState({
       searchValue: e.target.value
     });
-
-    searchUser = e => {
-      e.preventDefault();
-      const searchNickname = {
-        method: "POST",
-        body: JSON.stringify(this.state.searchValue),
-        headers: {
-          "Content-Type": "application/json"
-        }
-      };
-      fetch("http://localhost:9089/team", searchNickname)
-        .then(res => res.json())
-        .then(json => {
-          this.setState({
-            addUser: json
-          }).then(this.handleOpenModal());
-        });
-      //찾는 유저가 없으면....없다고 신호 줘야함
-    };
   };
+  //현재 인풋창에 있는 value값과 동일한 nickname이 있는지 찾아보는 함수
+  //있으면, state의 addUser에 값을 setState해준다. 
+  //리랜딩이 되면 handleOpenModal을 통해 모달을 열어주며 addUser의 값을 Modal Component로 넘겨준다.
+  searchUser = e => {
+    const searchNickname = {
+      method: "POST",
+      body: JSON.stringify(this.state.searchValue),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    };
+    e.preventDefault();
+    this.setState({
+      addUser : {nickname: "이노무개자슥이" , email: "yms0214@dreamwiz.com"  , origin_user_idx: 10 }
+    })
+
+
+    //서버로부터 받을 기대하는 json의 형태는 {nickname: "마리오", email: "aaa@naver.com", origin_user_idx: 1}
+    // fetch("http://localhost:9089/team", searchNickname)
+    // .then(this.handleOpenModal())
+    //   .then(res => res.json())
+    //     .then(json => {
+    //     this.setState({
+    //       addUser: json
+    //     })
+    //       .then(alert("111111111111111"))
+    //   });
+    //찾는 유저가 없으면....없다고 신호 줘야함
+  };
+
+  // componentDidMount = () => {
+  //   const currentBoardInfo = {
+  //     method: "POST",
+  //     body: JSON.stringify(this.props.origin_board_idx),
+  //     headers: {
+  //       "Content-Type": "application/json"
+  //     }
+  //   };
+  //   fetch("http://localhost:9089/team", currentBoardInfo)
+  //     .then(res => res.json())
+  //     .then(json => {
+  //       //json은 회원목록이 담긴 객체형태여야한다.
+  //       this.setState({
+  //         memberList: json
+  //       });
+  //     });
+  // };
+
   render() {
     return (
       <div>
@@ -135,11 +150,12 @@ class Team extends React.Component {
             <input
               type="text"
               placeholder="abc@gamil.com"
-              handleSearch={this.handleSearch}
+              onChange={this.handleSearch}
             />
-            <button onClick={this.searchUser}>친구찾기</button>
+            <button  onClick={this.handleOpenModal}>친구찾기</button>
             {this.state.modal && (
               <ModalPortal>
+                {/* ModalPotal의 지시에 따라, APP내부가 아닌 APP외부의 DOM에 Modal을 띄워줌. --> index.html 확인 */}
                 <Modal
                   handleCloseModal={this.handleCloseModal}
                   addMemberList={this.addMemberList}
