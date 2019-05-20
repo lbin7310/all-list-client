@@ -5,7 +5,7 @@ import List from '../Component/Board/List';
 import './Board.css';
 import { fakeData } from '../fakeData';
 
-export default class Board extends React.Component {
+class Board extends React.Component {
   constructor () {
     super()
     this.state = {
@@ -122,3 +122,5 @@ export default class Board extends React.Component {
     );
   }
 }
+
+export default Board;

@@ -1,5 +1,6 @@
 import React from "react";
 import MemberList from "../Component/Team/MemberList"
+import { BrowserRouter as Router, Route, Link, withRouter } from 'react-router-dom';
 import "./Team.css";
 
 class Team extends React.Component {
@@ -25,4 +26,4 @@ class Team extends React.Component {
   }
 }
 
-export default Team;
+export default withRouter(Team);
