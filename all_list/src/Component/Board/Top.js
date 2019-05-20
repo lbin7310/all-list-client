@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Link, withRouter } from 'react-router-dom';
 import './Top.css'
 
 class Top extends Component {
@@ -32,4 +32,4 @@ class Top extends Component {
   }
 }
 
-export default Top;
+export default withRouter(Top);

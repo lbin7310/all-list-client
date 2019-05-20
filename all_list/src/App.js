@@ -18,7 +18,7 @@ class App extends React.Component {
           <Route path="/login" exact component={Login}/>
           <Route path="/main" component={Main}/>
           <Route path="/board" component={Board}/>
-          <Route path="/team/:boardIdx" component={withRouter(Team)}/>
+          <Route path="/team" component={withRouter(Team)}/>
         </div>
       </Router>
     )
