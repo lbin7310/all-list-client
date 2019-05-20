@@ -1,14 +1,47 @@
-import React from 'react';
+import React, { Component } from 'react';
 import Card from './Card';
 import './List.css';
 
-let List = (props) => {
-  let collectList = {};
+class List extends Component {
+  constructor(){
+    super()
+    this.state={
+      listValue: '',
+    }
+  }
 
-  for (let i = 0; i < props.data.length; i++) {
-    if (props.data[i].board_idx === props.boardIdx) {
-      if (collectList[props.data[i].list_idx] === undefined) {
-        collectList[props.data[i].list_idx] = props.data[i].list_title;
+  // list를 추가하는 input창에서 값을 입력하면 state listValue가 바뀜
+  handleInputChange = (e) => {
+    this.setState({
+      listValue: e.target.value
+    }) 
+  }
+
+  // list 추가할 때 보내주는 list_title 값
+  handleSubmit = (e, a) => {
+    e.preventDefault();
+    let { listValue } = this.state 
+    if (listValue !== ''){
+      let send = [listValue, a]
+      this.props.onCreate(send);
+    }
+    
+    this.setState({
+      listValue: ''
+    })
+  }
+
+  render() {
+  const { data, boardIdx, onCardCreate } = this.props; // Board에서 받은 props
+  
+  let collectList = {};
+  let originListIdx = [];
+
+  for (let i = 0; i < data.length; i++) {
+    if ( data[i].board_idx === boardIdx) {
+      if (collectList[data[i].list_idx] === undefined) {
+        collectList[data[i].list_idx] = data[i].list_title;
+        originListIdx.push(data[i]);
       }
     }
   }
@@ -18,29 +51,40 @@ let List = (props) => {
     collect.push({ listIdx: key, listName: collectList[key] })
   }
 
-  return (
-    <div className="board_lists">
-      <div className="list_plus">
-        <span className="list_plus_title"
-          onClick={(e) => props.onAddList(e)}
-        >List 추가하기<button>+</button></span>
-      </div>
-      <div className="lists">
-        {collect.map(data => {
-          return (
-            <div className="list" key={data.listIdx}>
-              <div className="list_title">
-                {data.listName}
-                <Card listIdx={data.listIdx}
-                  boardIdx={props.boardIdx}
-                  data={props.data}/>
+  const { listValue } = this.state
+
+    return (
+      <div className="board_lists">
+        <div className="list_plus list_plus_title">
+          <form onSubmit={ (e) => this.handleSubmit(e, originListIdx[originListIdx.length - 1])}>
+            <input type='text'
+              placeholder='추가하기'
+              value={listValue}
+              onChange={this.handleInputChange}
+              name='listValue'
+            />
+            <button type="submit">+</button>
+          </form>
+        </div>
+        <div className="lists">
+          {collect.map(d => {
+            return (
+              <div className="list" key={d.listIdx}>
+                <div className="list_title">
+                  {d.listName}
+                  <Card listIdx={d.listIdx}
+                    onCardCreate={onCardCreate}
+                    boardIdx={boardIdx}
+                    data={data}
+                    onCardSubmit={this.handleCardValueSubmit}/>
+                </div>
               </div>
-            </div>
-          )
-        })}
+            )
+          })}
+        </div>
       </div>
-    </div>
-  )
+    )
+  } 
 }
 
 export default List;

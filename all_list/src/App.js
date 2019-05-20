@@ -18,7 +18,7 @@ class App extends React.Component {
           <Route path="/login" exact component={Login}/>
           <Route path="/main" component={Main}/>
           <Route path="/board" component={Board}/>
-          <Route path="/team" component={Team}/>
+          <Route path="/team/:boardIdx" component={Team}/>
         </div>
       </Router>
     )
