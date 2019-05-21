@@ -13,30 +13,26 @@ class Board extends React.Component {
       boardIdx: fakeData[0].board_idx,
       boardName: fakeData[0].board_title,
       boardDesc: fakeData[0].board_desc,
+      userId: fakeData[0].owner_idx,
       isPrivate: fakeData[0].is_private
     }
   }
 
   componentDidMount () {
-    let { boardIdx } = this.state;
-
-    let testText = {
-      email: "noh@gmail.com",
-      pw: "noh",
-      nickname: "noh"
-    };
-
-    let testObj = {
-      method: "POST",
-      body: JSON.stringify({ boardIdx }),
+       
+    fetch("http://localhost:9089/board", {
+      method: "GET",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        "info": JSON.stringify( { origin_board_idx : 1 } )
       }
-    };
-
-    fetch("http://localhost:9089/board/get", testObj)
-      .then(res => res.json())
-      .then(json => console.log(json, '<-------------와라'))
+    })
+    .then(res => res.json())
+    .then( json => {
+      return this.setState({
+        data: json
+      }) 
+    })
   }
 
   // sidebar에서 board 이름을 클릭하게 되면 Top에 이름이 바뀌면서 
@@ -50,6 +46,7 @@ class Board extends React.Component {
           boardIdx: cData[i].board_idx,
           boardName: cData[i].board_title,
           boardDesc: cData[i].board_desc,
+          userId: cData[i].owner_idx,
           isPrivate: cData[i].is_private 
         })
       }
@@ -57,39 +54,82 @@ class Board extends React.Component {
   }
 
   handleAddList = (d) => {
-    let listName = d[0];
-    let { list_idx, origin_list_idx } = d[1];
-    let lastList = {...d[1]};
+    let listName = d;
+    let { boardIdx, userId } = this.state;
 
-    lastList.list_title = listName;
-    lastList.list_idx = list_idx + 1;
-    lastList.origin_list_idx = origin_list_idx + 1;
-    lastList.card_desc = "";
-    lastList.card_title = "";
-    console.log(lastList);
+    let listReq = {
+      list_title: listName,
+      origin_board_idx: boardIdx,
+      origin_user_idx: userId 
+    } 
 
-    let { data } = this.state
-    this.setState({
-      data: [...data, lastList]
+    let listObj = {
+      method: "POST",
+      body: JSON.stringify( listReq ),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    }
+
+    fetch("http://localhost:9089/list", listObj)
+    .then(res => res.json())
+    .then(json => {
+      if (json) { // true
+        return fetch("http://localhost:9089/board/",  {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            "info": JSON.stringify( { origin_board_idx : 1 } )
+          }
+        })
+        .then( res => res.json())
+      }
     })
+    .then(json => 
+      this.setState({
+        data: json
+      }));
+    // json의 값이 true면 fetch를 한다.
   }
 
   handleAddCard = (v1, v2) => {
-    let { data } = this.state;
+    let { userId } = this.state
     
-    let lastCard = data[data.length - 1]
-    let lastCardIdx = lastCard.origin_card_idx;
-
-    let currentCardData = {...v2};
-    
-    currentCardData.origin_card_idx = lastCardIdx + 1;
-    currentCardData.card_desc = v1;
-
-    if (v1 !== ''){
-      this.setState({
-        data: [...data, currentCardData]
-      })
+    let cardReq = {
+      origin_list_idx: v2,
+      origin_user_idx: userId,
+      card_title: v1,
+      card_desc: v1
     }
+
+    let cardObj = {
+      method: "POST",
+      body: JSON.stringify(cardReq),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    }
+
+    fetch("http://localhost:9089/card", cardObj)
+    .then(res => res.json())
+    .then(json => {
+      console.log(json);
+      if (json){
+        return fetch("http://localhost:9089/board", {
+          method:"GET",
+          headers: {
+            "Content-Type": "application/json",
+            "info": JSON.stringify( {origin_board_idx : 1} )
+          }
+        })
+        .then(res => res.json())
+      }
+    })
+    .then(json => 
+      this.setState({
+        data: json
+      })
+    );
   }
 
   render() {
@@ -117,6 +157,7 @@ class Board extends React.Component {
         onCreate={this.handleAddList} // list를 추가는 함수
         onCardCreate={this.handleAddCard} // card를 추가하는 함수
         inputValue={inputValue}
+        onRemoveCard={this.handleRemoveCard} // card 제거하는 버튼
         />
       </div>
     );

@@ -18,12 +18,11 @@ class List extends Component {
   }
 
   // list 추가할 때 보내주는 list_title 값
-  handleSubmit = (e, a) => {
+  handleSubmit = (e) => {
     e.preventDefault();
     let { listValue } = this.state 
     if (listValue !== ''){
-      let send = [listValue, a]
-      this.props.onCreate(send);
+      this.props.onCreate(listValue);
     }
     
     this.setState({
@@ -32,21 +31,21 @@ class List extends Component {
   }
 
   render() {
-  const { data, boardIdx, onCardCreate } = this.props; // Board에서 받은 props
+  const { data, boardIdx, onCardCreate, onRemoveCard } = this.props; // Board에서 받은 props
   
   let collectList = {};
   let originListIdx = [];
-
   for (let i = 0; i < data.length; i++) {
     if ( data[i].board_idx === boardIdx) {
-      if (collectList[data[i].list_idx] === undefined) {
-        collectList[data[i].list_idx] = data[i].list_title;
+      if (collectList[data[i].origin_list_idx] === undefined) {
+        collectList[data[i].origin_list_idx] = data[i].list_title;
         originListIdx.push(data[i]);
       }
     }
   }
 
   let collect = []
+
   for (let key in collectList) {
     collect.push({ listIdx: key, listName: collectList[key] })
   }
@@ -56,7 +55,7 @@ class List extends Component {
     return (
       <div className="board_lists">
         <div className="list_plus list_plus_title">
-          <form onSubmit={ (e) => this.handleSubmit(e, originListIdx[originListIdx.length - 1])}>
+          <form onSubmit={ (e) => this.handleSubmit(e)}>
             <input type='text'
               placeholder='추가하기'
               value={listValue}
@@ -76,7 +75,8 @@ class List extends Component {
                     onCardCreate={onCardCreate}
                     boardIdx={boardIdx}
                     data={data}
-                    onCardSubmit={this.handleCardValueSubmit}/>
+                    onCardSubmit={this.handleCardValueSubmit}
+                    onRemoveCard={onRemoveCard}/>
                 </div>
               </div>
             )

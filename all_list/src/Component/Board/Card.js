@@ -32,7 +32,7 @@ class Card extends Component {
     let collectCard = [];
     
     const { cardValue } = this.state; // state cardValue
-    const { data, boardIdx, listIdx } = this.props; // props
+    const { data, boardIdx, listIdx, onRemoveCard } = this.props; // props
     
     for (let i = 0; i < data.length; i++) {
       if (data[i].board_idx === boardIdx &&
@@ -50,12 +50,17 @@ class Card extends Component {
           if (data.card_desc !== '') {
             return (
               <div className="card" key={data.origin_card_idx}>
-                <div >{data.card_desc}</div>
+                <div>{data.card_desc}</div>
+                <div>
+                  <button>수정</button>
+                  <button 
+                  onClick={ () => onRemoveCard(data.origin_card_idx)}>삭제</button>
+                </div>
               </div>
             )
           }
         })}
-        <form onSubmit={ (e) => this.handleCardValueSubmit(e, currentCard)}>
+        <form onSubmit={ (e) => this.handleCardValueSubmit(e, listIdx)}>
           <input type="text"
             placeholder="할 일"
             value={cardValue}

@@ -26,4 +26,4 @@ class Team extends React.Component {
   }
 }
 
-export default withRouter(Team);
+export default Team;
