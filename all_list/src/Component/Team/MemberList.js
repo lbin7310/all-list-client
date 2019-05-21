@@ -1,7 +1,6 @@
 import React from "react";
 
-const MemberList = ({ nickname, email }) => {
-  //필요 props : 각 유저의 email, 각 유저의 nickname 정보
+const MemberList = ({ nickname, email, origin_user_idx, handleDelete }) => {
   return (
     <div>
       <li>
@@ -9,6 +8,7 @@ const MemberList = ({ nickname, email }) => {
         <span>{nickname}</span>
         {/* email */}
         <span>{email}</span>
+        <button onClick={ (e) => handleDelete(e, origin_user_idx)}>삭제</button>
       </li>
     </div>
   );

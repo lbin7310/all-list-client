@@ -8,11 +8,8 @@ class Login extends React.Component {
     super(props);
 
     this.state = {
-      origin_user_idx: null,
       email: "",
-      pw: "",
-      nickname: "",
-      isLogin: null
+      pw: ""
     };
   }
   //이메일 입력창 관리
@@ -38,6 +35,7 @@ class Login extends React.Component {
         "Content-Type": "application/json"
       }
     };
+    
     fetch("http://localhost:9089/login", login_info)
       .then(res => {
         return res.json();
@@ -49,13 +47,7 @@ class Login extends React.Component {
           alert("로그인되었습니다");
           // 서버로 부터 받은 JSON형태의 데이터를 로컬스토리지에 우선 저장한다.
           window.localStorage.setItem('userInfo', JSON.stringify(json))
-          //스테이트에 유저정보를 저장한다.
-          this.setState({
-            idx: json.origin_user_idx,
-            email: json.email,
-            nickname: json.nickname,
-            isLogin: json.success
-          });
+          // Main페이지로 이동한다.
           this.props.history.push("/main")
         } else {
           alert("아이디 혹은 비밀번호를 확인하세요");
@@ -65,7 +57,6 @@ class Login extends React.Component {
 
   render() {
     return (
-      <Router>
         <div>
           <form onSubmit={this.handleSubmit}>
             {/* 이메일 인풋창 */}
@@ -97,7 +88,6 @@ class Login extends React.Component {
             </div>
           </form>
         </div>
-      </Router>
     );
   }
 }

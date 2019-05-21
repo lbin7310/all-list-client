@@ -3,6 +3,12 @@ import MemberList from "../Component/Team/MemberList";
 import "./Team.css";
 import Modal from "../Component/Team/Modal";
 import ModalPortal from "../Component/Team/ModalPortal";
+import {
+  BrowserRouter as Router,
+  Route,
+  Link,
+  withRouter
+} from "react-router-dom";
 
 // const userInfo = JSON.parse(window.localStorage.getItem("userInfo")
 
@@ -28,20 +34,25 @@ class Team extends React.Component {
     //addUser의 형태는 {nickname: , email: , origin_user_idx: }
     this.state = {
       modal: false,
-      memberList: [{email : "이메일", nickname: "닉네임", origin_user_idx: 1}], //<-- fakedata
+      memberList: [
+        { email: "이메일", nickname: "닉네임", origin_user_idx: 1 },
+        { email: "이메일2", nickname: "닉네임2", origin_user_idx: 2 }
+      ], //<-- fakedata
       searchValue: "",
-      addUser: null
+      addUser: null,
+      board_idx: 4,
+      board_title: "Google HR Team Board"
     };
   }
 
-  handleOpenModal = (e) => {
+  handleOpenModal = e => {
     e.preventDefault();
     this.setState({
       modal: true
     });
   };
 
-  handleCloseModal = (e) => {
+  handleCloseModal = e => {
     e.preventDefault();
     this.setState({
       modal: false
@@ -51,7 +62,7 @@ class Team extends React.Component {
   addMemberList = e => {
     e.preventDefault();
     //새로 등록할 친구를 db에 저장 했다가, 새로 업데이트된 멤버리스트를 다시 받아와야함
-     //memberList의 형태는 [{nickname: , email: ,origin_user_idx: }, {nickname: , email: ,origin_user_dix: }]
+    //memberList의 형태는 [{nickname: , email: ,origin_user_idx: }, {nickname: , email: ,origin_user_dix: }]
     const newMember = {
       method: "POST",
       body: JSON.stringify(this.state.addUser),
@@ -68,6 +79,32 @@ class Team extends React.Component {
       });
   };
 
+  //해당 보드에서 해당 유저아이디를 삭제
+  //서버에 boardIdx와 userIdx를 날린다.
+  handleDelete = (e, v) => {
+    e.preventDefault();
+    console.log(v);
+    // const deleteUser = [{
+    //   board_idx : this.state.board_idx,
+    //   user_idx : v
+    // }]
+
+    // const deleteInfo = {
+    //   method : "DELETE",
+    //   body : JSON.stringify(deleteUser),
+    //   headers: {
+    //     "Content-Type": "application/json"
+    //   }
+    // }
+    //서버로 부터 memberList데이터를 다시 받아 리랜더한다.
+    // fetch("http://localhost:9089/team", deleteUserInfo )
+    //   .then( res => res.json )
+    //     .then( json => {
+    //       this.setState({
+    //         memberList : json
+    //       })
+    //     })
+  };
 
   handleSearch = e => {
     e.preventDefault();
@@ -75,10 +112,12 @@ class Team extends React.Component {
       searchValue: e.target.value
     });
   };
+
   //현재 인풋창에 있는 value값과 동일한 nickname이 있는지 찾아보는 함수
-  //있으면, state의 addUser에 값을 setState해준다. 
+  //있으면, state의 addUser에 값을 setState해준다.
   //리랜딩이 되면 handleOpenModal을 통해 모달을 열어주며 addUser의 값을 Modal Component로 넘겨준다.
   searchUser = e => {
+    e.preventDefault();
     const searchNickname = {
       method: "POST",
       body: JSON.stringify(this.state.searchValue),
@@ -86,11 +125,6 @@ class Team extends React.Component {
         "Content-Type": "application/json"
       }
     };
-    e.preventDefault();
-    this.setState({
-      addUser : {nickname: "이노무개자슥이" , email: "yms0214@dreamwiz.com"  , origin_user_idx: 10 }
-    })
-
 
     //서버로부터 받을 기대하는 json의 형태는 {nickname: "마리오", email: "aaa@naver.com", origin_user_idx: 1}
     // fetch("http://localhost:9089/team", searchNickname)
@@ -100,74 +134,81 @@ class Team extends React.Component {
     //     this.setState({
     //       addUser: json
     //     })
-    //       .then(alert("111111111111111"))
     //   });
     //찾는 유저가 없으면....없다고 신호 줘야함
   };
 
-  // componentDidMount = () => {
-  //   const currentBoardInfo = {
-  //     method: "POST",
-  //     body: JSON.stringify(this.props.origin_board_idx),
-  //     headers: {
-  //       "Content-Type": "application/json"
-  //     }
-  //   };
-  //   fetch("http://localhost:9089/team", currentBoardInfo)
-  //     .then(res => res.json())
-  //     .then(json => {
-  //       //json은 회원목록이 담긴 객체형태여야한다.
-  //       this.setState({
-  //         memberList: json
-  //       });
-  //     });
-  // };
+  componentDidMount = () => {
+    //   const boardIdx = { boardIdx: this.props.match.params.boardIdx }
+    //   const currentBoardInfo = {
+    //   method: "POST",
+    //   body: JSON.stringify(boardIdx),
+    //   headers: {
+    //     "Content-Type": "application/json"
+    //   }
+    // };
+    // fetch("http://localhost:9089/team/{ boardIdx }", currentBoardInfo)
+    //   .then(res => res.json())
+    //   .then(json => {
+    //     //json은 회원목록이 담긴 객체형태여야한다.
+    //     this.setState({
+    //       memberList: json,
+    //       board_idx: json.boardIdx,
+    //       board_title: json.board_title
+    //     });
+    //   });
+  };
 
   render() {
     return (
-      <div>
-        <header className="Team_header">
-          <h1>팀명</h1>
-        </header>
-        <section className="Team_sidebar_left">
-          <h3>Team Members</h3>
-          {/* 스테이트에 저장 된 현재 팀원목록들을 MemberList로 보낸다 */}
-          <ul>
-            {this.state.memberList.map(member => {
-              return (
-                <MemberList
-                  origin_user_idx={member.origin_user_idx}
-                  nickname={member.nickname}
-                  email={member.email}
-                />
-              );
-            })}
-          </ul>
-        </section>
-        <section className="Team_sidebar_left">
-          <h4>니 친구를 초대해!!!!</h4>
-          <div>
-            <input
-              type="text"
-              placeholder="abc@gamil.com"
-              onChange={this.handleSearch}
-            />
-            <button  onClick={this.handleOpenModal}>친구찾기</button>
-            {this.state.modal && (
-              <ModalPortal>
-                {/* ModalPotal의 지시에 따라, APP내부가 아닌 APP외부의 DOM에 Modal을 띄워줌. --> index.html 확인 */}
-                <Modal
-                  handleCloseModal={this.handleCloseModal}
-                  addMemberList={this.addMemberList}
-                  addUser={this.state.addUser}
-                />
-              </ModalPortal>
-            )}
-          </div>
-        </section>
-      </div>
+      <Router>
+        <div>
+          <header className="Team_header">
+            <Link to={`/board/${this.state.board_idx}`}>
+              {this.state.board_title}
+            </Link>
+          </header>
+          <section className="Team_sidebar_left">
+            <h3>Team Members</h3>
+            {/* 스테이트에 저장 된 현재 팀원목록들을 MemberList로 보낸다 */}
+            <ul>
+              {this.state.memberList.map(member => {
+                return (
+                  <MemberList
+                    origin_user_idx={member.origin_user_idx}
+                    nickname={member.nickname}
+                    email={member.email}
+                    handleDelete={this.handleDelete}
+                  />
+                );
+              })}
+            </ul>
+          </section>
+          <section className="Team_sidebar_left">
+            <h4>니 친구를 초대해!!!!</h4>
+            <div>
+              <input
+                type="text"
+                placeholder="abc@gamil.com"
+                onChange={this.handleSearch}
+              />
+              <button onClick={this.handleOpenModal}>친구찾기</button>
+              {this.state.modal && (
+                <ModalPortal>
+                  {/* ModalPotal의 지시에 따라, APP내부가 아닌 APP외부의 DOM에 Modal을 띄워줌. --> index.html 확인 */}
+                  <Modal
+                    handleCloseModal={this.handleCloseModal}
+                    addMemberList={this.addMemberList}
+                    addUser={this.state.addUser}
+                  />
+                </ModalPortal>
+              )}
+            </div>
+          </section>
+        </div>
+      </Router>
     );
   }
 }
 
-export default Team;
+export default withRouter (Team);

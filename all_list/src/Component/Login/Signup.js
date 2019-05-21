@@ -79,7 +79,8 @@ class Signup extends React.Component {
     e.preventDefault();
 
     const chkNickname = function(str) {
-      var regNm = /^[가-힣]{2,15}|[a-zA-Z]{2,15}\s[a-zA-Z]{2,15}$/;
+      //한글,영문,숫자 혼합 3~10자리 가능
+      var regNm = /^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|\*]{3,10}$/
       return regNm.test(str) ? true : false;
     };
 
@@ -95,7 +96,7 @@ class Signup extends React.Component {
       }
     };
     if (chkNickname(this.state.nickname) === false) {
-      alert("한글,영문 대소문자 2~15자리만 사용 가능합니다");
+      alert("한글,영문 대소문자 3~10자리만 사용 가능합니다");
     } else {
       fetch("http://localhost:9089/user/nick", nickname_info)
         .then(res => res.json())
