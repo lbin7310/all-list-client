@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Card from './Card';
+import Cards from './Cards';
 import './List.css';
 
 class List extends Component {
@@ -31,7 +31,12 @@ class List extends Component {
   }
 
   render() {
-  const { data, boardIdx, onCardCreate, onRemoveCard } = this.props; // Board에서 받은 props
+  const { data,
+          boardIdx,
+          onCardCreate,
+          onRemoveCard,
+          onEditCard,
+          onRemoveList } = this.props; // Board에서 받은 props
   
   let collectList = {};
   let originListIdx = [];
@@ -70,13 +75,20 @@ class List extends Component {
             return (
               <div className="list" key={d.listIdx}>
                 <div className="list_title">
-                  {d.listName}
-                  <Card listIdx={d.listIdx}
+                  <div className="list_name">
+                    <div>{d.listName}</div>
+                    <div className="list_buttons">
+                      <button >수정</button>
+                      <button onClick={ () => onRemoveList(d.listIdx, d.listName)}>삭제</button>
+                    </div>
+                  </div>
+                  <Cards listIdx={d.listIdx}
                     onCardCreate={onCardCreate}
                     boardIdx={boardIdx}
                     data={data}
                     onCardSubmit={this.handleCardValueSubmit}
-                    onRemoveCard={onRemoveCard}/>
+                    onRemoveCard={onRemoveCard}
+                    onEditCard={onEditCard}/>
                 </div>
               </div>
             )

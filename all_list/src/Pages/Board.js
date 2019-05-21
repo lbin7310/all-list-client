@@ -18,21 +18,31 @@ class Board extends React.Component {
     }
   }
 
-  componentDidMount () {
-       
-    fetch("http://localhost:9089/board", {
+  reFetch = (boardidx) => {
+    return fetch("http://localhost:9089/board/",  {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        "info": JSON.stringify( { origin_board_idx : 1 } )
+        "info": JSON.stringify( { origin_board_idx : boardidx } )
       }
     })
-    .then(res => res.json())
+    .then( res => res.json())
+  }
+
+  componentDidMount () {
+    const { boardIdx } = this.state;
+
+    this.reFetch(boardIdx)
     .then( json => {
       return this.setState({
-        data: json
+        data: json,
+        boardIdx: json[0].board_idx,
+        boardName: json[0].board_title,
+        boardDesc: json[0].board_desc,
+        userId: json[0].owner_idx,
+        isPrivate: json[0].is_private
       }) 
-    })
+    });
   }
 
   // sidebar에서 board 이름을 클릭하게 되면 Top에 이름이 바뀌면서 
@@ -53,6 +63,7 @@ class Board extends React.Component {
     }
   }
 
+  // list 추가
   handleAddList = (d) => {
     let listName = d;
     let { boardIdx, userId } = this.state;
@@ -75,14 +86,7 @@ class Board extends React.Component {
     .then(res => res.json())
     .then(json => {
       if (json) { // true
-        return fetch("http://localhost:9089/board/",  {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            "info": JSON.stringify( { origin_board_idx : 1 } )
-          }
-        })
-        .then( res => res.json())
+        return this.reFetch(boardIdx);
       }
     })
     .then(json => 
@@ -92,8 +96,9 @@ class Board extends React.Component {
     // json의 값이 true면 fetch를 한다.
   }
 
+  // card 추가
   handleAddCard = (v1, v2) => {
-    let { userId } = this.state
+    let { userId, boardIdx } = this.state
     
     let cardReq = {
       origin_list_idx: v2,
@@ -115,14 +120,7 @@ class Board extends React.Component {
     .then(json => {
       console.log(json);
       if (json){
-        return fetch("http://localhost:9089/board", {
-          method:"GET",
-          headers: {
-            "Content-Type": "application/json",
-            "info": JSON.stringify( {origin_board_idx : 1} )
-          }
-        })
-        .then(res => res.json())
+        return this.reFetch(boardIdx);
       }
     })
     .then(json => 
@@ -131,6 +129,93 @@ class Board extends React.Component {
       })
     );
   }
+
+  // card 제거
+  handleRemoveCard = (v) => {
+    const { boardIdx } = this.state;
+
+    let removeReq = {
+      origin_card_idx: v
+    }
+
+    fetch('http://localhost:9089/card', {
+        method: "DELETE",
+        body: JSON.stringify( removeReq ),
+        headers: {
+          "Content-Type": "application/json"
+        }
+    })
+    .then(res => res.json())
+    .then(json => {
+      if (json){
+        return this.reFetch(boardIdx);
+      }
+    })
+    .then(json => 
+      this.setState({
+        data: json
+      })
+    );
+  }
+
+  // card 수정
+  handleEditCard = (cardIdx, editValue) => {
+    let { boardIdx } = this.state;
+
+    let editCardReq = {
+      origin_card_idx: cardIdx,
+      card_title: editValue,
+      card_desc: editValue
+    }
+
+    fetch('http://localhost:9089/card',{
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(editCardReq),
+    })
+    .then( res => res.json())
+    .then( json => {
+      if (json){
+        return this.reFetch(boardIdx);
+      }
+    })
+    .then( json => {
+      this.setState({
+        data: json
+      })
+    });
+  }
+
+  // handleRemoveList = (listIdx, listTitle) => {
+  //   const { boardIdx } = this.state;
+
+  //   let listRemoveReq = {
+  //     origin_list_idx: listIdx,
+  //     list_title: listTitle
+  //   }
+
+  //   fetch('http://localhost:9089/list', {
+  //     method: "DELETE",
+  //     headers: {
+  //       "Content-Type": "application/json"
+  //     },
+  //     body: JSON.stringify( listRemoveReq )
+  //   })
+  //   .then( res => res.json())
+  //   .then( json => {
+  //     console.log(json);
+  //     if (json){
+  //       return this.reFetch(boardIdx)
+  //     }
+  //   })
+  //   .then(json => 
+  //     this.setState({
+  //       data: json
+  //     })
+  //   );
+  // }
 
   render() {
     const { boardDesc, 
@@ -153,11 +238,12 @@ class Board extends React.Component {
         </div>
         <List data={data} 
         boardIdx={boardIdx}
-        //onInputChange={this.handleInputChange}
-        onCreate={this.handleAddList} // list를 추가는 함수
-        onCardCreate={this.handleAddCard} // card를 추가하는 함수
         inputValue={inputValue}
+        onCreate={this.handleAddList} // list를 추가는 함수
+        onRemoveList={this.handleRemoveList} // list 제거
+        onCardCreate={this.handleAddCard} // card를 추가하는 함수
         onRemoveCard={this.handleRemoveCard} // card 제거하는 버튼
+        onEditCard={this.handleEditCard} // card 수정하는 버튼
         />
       </div>
     );

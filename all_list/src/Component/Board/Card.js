@@ -1,75 +1,77 @@
 import React, { Component } from 'react';
-import './Card.css';
 
 class Card extends Component {
   constructor () {
-    super ()
-    this.state={
-      cardValue: ''
+    super()
+    this.state = {
+      cardEditValue: '',
+      editing: false
     }
   }
 
-  // list 안에 있는 input 창에서 값을 입력하면 여기 component에 있는 
-  // state의 cardValue를 변경하는 함수
-  handleCardInputChange = (e) => { 
-    this.setState({
-      cardValue: e.target.value
-    }) 
+  handleToggleEdit = () => {
+    const { editing } = this.state;
+    this.setState({ editing: !editing});
   }
 
-  // state의 cardValue를 board component에 보내주는 함수
-  handleCardValueSubmit = (e, cardData) => {
-    e.preventDefault();
-    let { cardValue } = this.state;
-    this.props.onCardCreate(cardValue, cardData);
-
+  handleCardInputChange = (e) => { 
     this.setState({
-      cardValue: ''
-    })
-  } 
+      cardEditValue: e.target.value
+    }) 
+    console.log(this.state.cardEditValue);
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+
+    const { cardValue, onEditCard, cardIdx } = this.props
+    const { cardEditValue } = this.state;
+
+    if (!prevState.editing && this.state.editing){
+      this.setState({
+        cardValue: cardValue
+      })
+    }
+
+    if (prevState.editing && !this.state.editing) {
+      onEditCard(cardIdx, cardEditValue);
+    }
+  }
+
 
   render() {
-    let collectCard = [];
-    
-    const { cardValue } = this.state; // state cardValue
-    const { data, boardIdx, listIdx, onRemoveCard } = this.props; // props
-    
-    for (let i = 0; i < data.length; i++) {
-      if (data[i].board_idx === boardIdx &&
-        data[i].list_idx === Number(listIdx)) {
-          collectCard.push(data[i]);
-        }
-      }
-      
-    // card를 추가하기 위해 마지막 idx를 얻기 위한 값
-    let currentCard = collectCard[collectCard.length - 1]; 
+    const { editing } = this.state;
+    const { onRemoveCard, data } = this.props
+    if (editing) {
+      return (
+        <div>
+          <div>
+            <input
+              value={this.state.cardEditValue}
+              placeholder="할 일"
+              onChange={this.handleCardInputChange}
+            />
+          </div>
+          <button onClick={this.handleToggleEdit}>적용</button>
+          <button onClick={ () => onRemoveCard(data.origin_card_idx)}>삭제</button>
+        </div>
+      )
+    }
 
-    return (
-      <div className="cards">
-        {collectCard.map(data => {
-          if (data.card_desc !== '') {
-            return (
-              <div className="card" key={data.origin_card_idx}>
-                <div>{data.card_desc}</div>
-                <div>
-                  <button>수정</button>
-                  <button 
-                  onClick={ () => onRemoveCard(data.origin_card_idx)}>삭제</button>
-                </div>
-              </div>
-            )
-          }
-        })}
-        <form onSubmit={ (e) => this.handleCardValueSubmit(e, listIdx)}>
-          <input type="text"
-            placeholder="할 일"
-            value={cardValue}
-            name="cardValue"
-            onChange={this.handleCardInputChange}
-          /><button type="submit">+</button>
-        </form>
-      </div>
-    )
+    if (data.card_desc !== '') {
+      return (
+        <div className="card" key={data.origin_card_idx}>
+          <div className="card_description">{data.card_desc}</div>
+          <div>
+            <button
+            // 할 일 내용 수정.
+              onClick={this.handleToggleEdit}>수정</button>
+            <button
+            // 할 일 내용 제거.
+              onClick={ () => onRemoveCard(data.origin_card_idx)}>삭제</button>
+          </div>
+        </div>
+      )
+    }
   }
 }
 
