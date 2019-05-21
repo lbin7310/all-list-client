@@ -23,11 +23,13 @@ class Cards extends Component {
   handleCardValueSubmit = (e, cardData) => {
     e.preventDefault();
     let { cardValue } = this.state;
-    this.props.onCardCreate(cardValue, cardData);
-
-    this.setState({
-      cardValue: ''
-    })
+    if ( cardValue !== '' ){
+      this.props.onCardCreate(cardValue, cardData);
+  
+      this.setState({
+        cardValue: ''
+      })
+    }
   } 
 
   render() {

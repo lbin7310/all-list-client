@@ -5,16 +5,18 @@ import List from '../Component/Board/List';
 import './Board.css';
 import { fakeData } from '../fakeData';
 
+window.localStorage.setItem('userInfo', 8);
+
 class Board extends React.Component {
   constructor () {
     super()
     this.state = {
       data: fakeData,
       boardIdx: fakeData[0].board_idx,
-      boardName: fakeData[0].board_title,
-      boardDesc: fakeData[0].board_desc,
-      userId: fakeData[0].owner_idx,
-      isPrivate: fakeData[0].is_private
+      boardName: '',
+      boardDesc: '',
+      userId: window.localStorage.getItem('userInfo'),
+      isPrivate: 0
     }
   }
 
@@ -30,16 +32,18 @@ class Board extends React.Component {
   }
 
   componentDidMount () {
-    const { boardIdx } = this.state;
-
+    const { boardIdx, userId } = this.state;
+    console.log(boardIdx, '<-------boardidx');
+    console.log(userId);
     this.reFetch(boardIdx)
     .then( json => {
+      console.log(json);
       return this.setState({
         data: json,
-        boardIdx: json[0].board_idx,
+        boardIdx: json[0].origin_board_idx,
         boardName: json[0].board_title,
         boardDesc: json[0].board_desc,
-        userId: json[0].owner_idx,
+        userId,
         isPrivate: json[0].is_private
       }) 
     });
@@ -47,17 +51,17 @@ class Board extends React.Component {
 
   // sidebar에서 board 이름을 클릭하게 되면 Top에 이름이 바뀌면서 
   // Top의 boardNamde 바뀌게 된다.
-  handleClickChange = (e) => {
-    let { data } = this.state;
-    let cData = [...data];
+  handleClickChange = (e, sd) => {
+    let { userId } = this.state;
+    let cData = [...sd];
     for (let i = 0; i < cData.length; i++) {
-      if (cData[i].board_idx === Number(e)) {
+      if (cData[i].origin_board_idx === Number(e)) {
         this.setState({
-          boardIdx: cData[i].board_idx,
+          boardIdx: cData[i].origin_board_idx,
           boardName: cData[i].board_title,
           boardDesc: cData[i].board_desc,
-          userId: cData[i].owner_idx,
-          isPrivate: cData[i].is_private 
+          userId,
+          isPrivate: !cData[i].is_private 
         })
       }
     }
@@ -67,13 +71,15 @@ class Board extends React.Component {
   handleAddList = (d) => {
     let listName = d;
     let { boardIdx, userId } = this.state;
-
+    console.log(d);
+    console.log(boardIdx);
     let listReq = {
       list_title: listName,
       origin_board_idx: boardIdx,
       origin_user_idx: userId 
     } 
 
+    console.log(listReq);
     let listObj = {
       method: "POST",
       body: JSON.stringify( listReq ),
@@ -115,19 +121,21 @@ class Board extends React.Component {
       }
     }
 
-    fetch("http://localhost:9089/card", cardObj)
-    .then(res => res.json())
-    .then(json => {
-      console.log(json);
-      if (json){
-        return this.reFetch(boardIdx);
-      }
-    })
-    .then(json => 
-      this.setState({
-        data: json
+    if ( v1 !== null ){
+      fetch("http://localhost:9089/card", cardObj)
+      .then(res => res.json())
+      .then(json => {
+        console.log(json);
+        if (json){
+          return this.reFetch(boardIdx);
+        }
       })
-    );
+      .then(json => 
+        this.setState({
+          data: json
+        })
+      );
+    }
   }
 
   // card 제거
@@ -188,34 +196,33 @@ class Board extends React.Component {
     });
   }
 
-  // handleRemoveList = (listIdx, listTitle) => {
-  //   const { boardIdx } = this.state;
+  handleRemoveList = (listIdx, listTitle) => {
+    const { boardIdx } = this.state;
 
-  //   let listRemoveReq = {
-  //     origin_list_idx: listIdx,
-  //     list_title: listTitle
-  //   }
+    let listRemoveReq = {
+      origin_list_idx: listIdx,
+      list_title: null
+    }
 
-  //   fetch('http://localhost:9089/list', {
-  //     method: "DELETE",
-  //     headers: {
-  //       "Content-Type": "application/json"
-  //     },
-  //     body: JSON.stringify( listRemoveReq )
-  //   })
-  //   .then( res => res.json())
-  //   .then( json => {
-  //     console.log(json);
-  //     if (json){
-  //       return this.reFetch(boardIdx)
-  //     }
-  //   })
-  //   .then(json => 
-  //     this.setState({
-  //       data: json
-  //     })
-  //   );
-  // }
+    fetch('http://localhost:9089/list', {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify( listRemoveReq )
+    })
+    .then( res => res.json())
+    .then( json => {
+      if (json){
+        return this.reFetch(boardIdx)
+      }
+    })
+    .then(json => 
+      this.setState({
+        data: json
+      })
+    );
+  }
 
   render() {
     const { boardDesc, 
@@ -223,7 +230,8 @@ class Board extends React.Component {
             data,
             boardIdx,
             inputValue,
-            isPrivate } = this.state;
+            isPrivate,
+            userId } = this.state;
 
     return (
       <div>
@@ -234,7 +242,9 @@ class Board extends React.Component {
         />
         <div className='side_bar'>
           <Sidebar data={data} 
-          onClickBoard={this.handleClickChange} />
+          onClickBoard={this.handleClickChange}
+          userId={userId}
+          />
         </div>
         <List data={data} 
         boardIdx={boardIdx}
