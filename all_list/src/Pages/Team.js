@@ -96,7 +96,7 @@ class Team extends React.Component {
     //     "Content-Type": "application/json"
     //   }
     // }
-    //서버로 부터 memberList데이터를 다시 받아 리랜더한다.
+    // 서버로 부터 memberList데이터를 다시 받아 리랜더한다.
     // fetch("http://localhost:9089/team", deleteUserInfo )
     //   .then( res => res.json )
     //     .then( json => {

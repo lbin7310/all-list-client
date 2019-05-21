@@ -28,14 +28,15 @@ class Login extends React.Component {
   handleSubmit = e => {
     e.preventDefault();
 
+    const userInfo = this.state
     const login_info = {
-      method: "POST",
-      body: JSON.stringify(this.state),
+      method: 'GET',
       headers: {
-        "Content-Type": "application/json"
+      "Content-Type": "application/json",
+      "info": JSON.stringify(userInfo)
       }
     };
-    
+
     fetch("http://localhost:9089/login", login_info)
       .then(res => {
         return res.json();
