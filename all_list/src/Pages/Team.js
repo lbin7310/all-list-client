@@ -1,15 +1,14 @@
 import React from "react";
 import MemberList from "../Component/Team/MemberList";
-import "./Team.css";
-import Modal from "../Component/Team/Modal";
-import ModalPortal from "../Component/Team/ModalPortal";
-
 import {
   BrowserRouter as Router,
   Route,
   Link,
   withRouter
 } from "react-router-dom";
+import "./Team.css";
+import Modal from "../Component/Team/Modal";
+import ModalPortal from "../Component/Team/ModalPortal";
 
 //board네임 - Props로 받는다.
 //닉네임 - 로컬스토리지서 받는다.
@@ -31,8 +30,8 @@ class Team extends React.Component {
   }
 
   reRender = () => {
-    const boardIdx = {origin_board_idx: this.props.match.params.id}
-    
+    const boardIdx = { origin_board_idx: this.props.match.params.id };
+
     const currentBoardInfo = {
       method: "POST",
       body: JSON.stringify(boardIdx),
@@ -64,7 +63,7 @@ class Team extends React.Component {
   };
 
   addMemberList = (e, idx) => {
-    e.preventDefault();
+    // e.preventDefault();
 
     const addMember = {
       origin_user_idx: idx,
@@ -128,7 +127,7 @@ class Team extends React.Component {
   //있으면, state의 addUser에 값을 setState해준다.
   //리랜딩이 되면 handleOpenModal을 통해 모달을 열어주며 addUser의 값을 Modal Component로 넘겨준다.
   searchUser = e => {
-    // e.preventDefault();
+      e.preventDefault();
 
     const searchNickname = {
       method: "POST",
@@ -167,10 +166,14 @@ class Team extends React.Component {
             <Link to={`/board/${this.state.board_idx}`}>
               {this.props.location.state.board_title}
             </Link>
-            <button onClick={()=> {
-              window.localStorage.removeItem("userInfo")
-              this.props.history.push("/login");
-          }}>로그아웃</button>
+            <button
+              onClick={() => {
+                window.localStorage.removeItem("userInfo");
+                this.props.history.push("/login");
+              }}
+            >
+              로그아웃
+            </button>
           </header>
           <section className="Team_sidebar_left">
             <h3>Team Members</h3>

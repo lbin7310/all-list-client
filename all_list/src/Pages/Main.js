@@ -26,19 +26,20 @@ export default class Main extends React.Component {
   }
   //보드 추가, 삭제 후 새롭게 GET요청을 통해 데이터를 받은 후 리랜딩해주는 함수
   reRender = () => {
+    const userIdx = JSON.parse(window.localStorage.getItem("userInfo")).data[0]
+      .origin_user_idx;
+    const nickname = JSON.parse(window.localStorage.getItem("userInfo")).data[0]
+      .nickname;
+
     const userInfo = {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
         info: JSON.stringify({
-          origin_user_idx: this.state.userIdx
+          origin_user_idx: userIdx
         })
       }
     };
-    const userIdx = JSON.parse(window.localStorage.getItem("userInfo")).data[0]
-      .origin_user_idx;
-    const nickname = JSON.parse(window.localStorage.getItem("userInfo")).data[0]
-      .nickname;
 
     fetch("http://localhost:9089/lender", userInfo)
       .then(res => res.json())
@@ -52,15 +53,15 @@ export default class Main extends React.Component {
           this.setState({
             privateB: privateB,
             teamB: teamB,
-            userIdx,
-            nickname
+            nickname,
+            userIdx
           });
         } else {
           this.setState({
             privateB: [],
             teamB: [],
-            userIdx,
-            nickname
+            nickname,
+            userIdx
           });
         }
       });
@@ -167,127 +168,128 @@ export default class Main extends React.Component {
   };
 
   render() {
-    if(this.props.isLogin === false) {
-      this.props.history.push('/login')
+    if (this.props.isLogin === false) {
+      this.props.history.push("/login");
     } else {
-    return (
-      <div>
-        {/* Top Navigation Bar */}
-        <nav id="app_title">
-          <div>
-            <h1>모두의리스트</h1>
-            <h3>{this.state.nickname}</h3>
-          </div>
-          <button
-            onClick={() => {
-              window.localStorage.removeItem("userInfo");
-              this.props.history.push("/login");
-            }}
-          >
-            로그아웃
-          </button>
-        </nav>
+      return (
+        <div>
+          {/* Top Navigation Bar */}
+          <nav id="app_title">
+            <div>
+              <h1>모두의리스트</h1>
+              <h3>{this.state.nickname}</h3>
+            </div>
+            <button
+              onClick={() => {
+                window.localStorage.removeItem("userInfo");
+                this.props.history.push("/login");
+              }}
+            >
+              로그아웃
+            </button>
+          </nav>
 
-        <div className="main_center">
-          <div className="main_username">보드 정보</div>
-          {/* Private Board Section */}
-          <section className="main_private">
-            <div className="main_private_board">
-              <div>Private Board</div>
-              <ul>
-                {this.state.privateB.map(board => {
-                  return (
-                    <PrivateBoard
-                      title={board.board_title}
-                      desc={board.board_desc}
-                      key={board.board_idx}
-                      idx={board.board_idx}
-                      deleteBoard={this.deleteBoard}
-                    />
-                  );
-                })}
-              </ul>
-              <div>
-                <input
-                  className="P_TitleInput"
-                  onChange={e => this.handleInput(e, 0)}
-                  type="text"
-                  placeholder="새로운 보드명을 추가해주세요"
-                />
-                <textarea
-                  className="P_DescInput"
-                  onChange={e => this.handleDesc(e, 0)}
-                  type="text"
-                  placeholder="보드를 소개하세요"
-                />
-                <button
-                  onClick={() => {
-                    //인풋창을 디폴팅 시켜준다.
-                    document.querySelector(".P_TitleInput").value = "";
-                    document.querySelector(".P_DescInput").value = "";
-                    //제목을 입력하지 않은 경우, 제목입력 하라는 경고창이 뜬다.
-                    if (this.state.newPBTitle.length === 0) {
-                      alert("보드 제목을 입력하세요");
-                    } else {
-                      this.addBoard(0);
-                    }
-                  }}
-                >
-                  추가하기
-                </button>
+          <div className="main_center">
+            <div className="main_username">보드 정보</div>
+            {/* Private Board Section */}
+            <section className="main_private">
+              <div className="main_private_board">
+                <div>Private Board</div>
+                <ul>
+                  {this.state.privateB.map(board => {
+                    return (
+                      <PrivateBoard
+                        title={board.board_title}
+                        desc={board.board_desc}
+                        key={board.board_idx}
+                        idx={board.board_idx}
+                        deleteBoard={this.deleteBoard}
+                      />
+                    );
+                  })}
+                </ul>
+                <div>
+                  <input
+                    className="P_TitleInput"
+                    onChange={e => this.handleInput(e, 0)}
+                    type="text"
+                    placeholder="새로운 보드명을 추가해주세요"
+                  />
+                  <textarea
+                    className="P_DescInput"
+                    onChange={e => this.handleDesc(e, 0)}
+                    type="text"
+                    placeholder="보드를 소개하세요"
+                  />
+                  <button
+                    onClick={() => {
+                      //인풋창을 디폴팅 시켜준다.
+                      document.querySelector(".P_TitleInput").value = "";
+                      document.querySelector(".P_DescInput").value = "";
+                      //제목을 입력하지 않은 경우, 제목입력 하라는 경고창이 뜬다.
+                      if (this.state.newPBTitle.length === 0) {
+                        alert("보드 제목을 입력하세요");
+                      } else {
+                        this.addBoard(0);
+                      }
+                    }}
+                  >
+                    추가하기
+                  </button>
+                </div>
               </div>
-            </div>
-          </section>
-          {/* Team Board Section */}
-          <section className="main_team">
-            <div className="main_team_board">
-              <div>Team Board</div>
-              <ul>
-                {this.state.teamB.map(board => {
-                  return (
-                    <TeamBoard
-                      title={board.board_title}
-                      desc={board.board_desc}
-                      key={board.board_idx}
-                      idx={board.board_idx}
-                      deleteBoard={this.deleteBoard}
-                    />
-                  );
-                })}
-              </ul>
-              <div>
-                <input
-                  className="T_TitleInput"
-                  type="text"
-                  placeholder="새로운 팀 보드명을 추가해주세요"
-                  onChange={e => this.handleInput(e, 1)}
-                />
-                <textarea
-                  className="T_DescInput"
-                  onChange={e => this.handleDesc(e, 1)}
-                  type="text"
-                  placeholder="보드를 소개하세요"
-                />
-                <button
-                  onClick={() => {
-                    //인풋창을 디폴팅 시켜준다.
-                    document.querySelector(".T_TitleInput").value = "";
-                    document.querySelector(".T_DescInput").value = "";
-                    //제목을 입력하지 않은 경우, 제목입력 하라는 경고창이 뜬다.
-                    if (this.state.newTBTitle.length === 0) {
-                      alert("보드 제목을 입력하세요");
-                    } else {
-                      this.addBoard(1);
-                    }
-                  }}
-                >
-                  추가하기
-                </button>
+            </section>
+            {/* Team Board Section */}
+            <section className="main_team">
+              <div className="main_team_board">
+                <div>Team Board</div>
+                <ul>
+                  {this.state.teamB.map(board => {
+                    return (
+                      <TeamBoard
+                        title={board.board_title}
+                        desc={board.board_desc}
+                        key={board.board_idx}
+                        idx={board.board_idx}
+                        deleteBoard={this.deleteBoard}
+                      />
+                    );
+                  })}
+                </ul>
+                <div>
+                  <input
+                    className="T_TitleInput"
+                    type="text"
+                    placeholder="새로운 팀 보드명을 추가해주세요"
+                    onChange={e => this.handleInput(e, 1)}
+                  />
+                  <textarea
+                    className="T_DescInput"
+                    onChange={e => this.handleDesc(e, 1)}
+                    type="text"
+                    placeholder="보드를 소개하세요"
+                  />
+                  <button
+                    onClick={() => {
+                      //인풋창을 디폴팅 시켜준다.
+                      document.querySelector(".T_TitleInput").value = "";
+                      document.querySelector(".T_DescInput").value = "";
+                      //제목을 입력하지 않은 경우, 제목입력 하라는 경고창이 뜬다.
+                      if (this.state.newTBTitle.length === 0) {
+                        alert("보드 제목을 입력하세요");
+                      } else {
+                        this.addBoard(1);
+                      }
+                    }}
+                  >
+                    추가하기
+                  </button>
+                </div>
               </div>
-            </div>
-          </section>
+            </section>
+          </div>
         </div>
-      </div>
-    );
-  }}
+      );
+    }
+  }
 }
