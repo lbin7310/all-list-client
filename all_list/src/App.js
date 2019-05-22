@@ -16,11 +16,11 @@ class App extends React.Component {
     return (
       <Router>
         <Switch>
-          <Route path="/login" component={Login} />
+          <Route path="/login" exact component={Login} />
           <Route path="/signup" component={Signup} />
           <Route path="/main" component={Main} />
-          <Route path="/board/" component={Board} />
-          <Route path="/team" component={Team} />
+          <Route path="/board/:id" component={Board} />
+          <Route path="/user_board/:id" component={Team} />
         </Switch>
       </Router>
     );

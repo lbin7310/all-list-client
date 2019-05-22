@@ -2,16 +2,20 @@ import React from "react";
 import "./Main.css";
 import PrivateBoard from "../Component/Main/PrivateBoard";
 import TeamBoard from "../Component/Main/TeamBoard";
-import { arrayExpression } from "@babel/types";
+import {
+  BrowserRouter as Router,
+  Route,
+  Link,
+  Switch,
+  Redirect
+} from "react-router-dom";
 
 export default class Main extends React.Component {
   constructor() {
     super();
     this.state = {
-      userIdx: JSON.parse(window.localStorage.getItem("userInfo")).data[0]
-        .origin_user_idx,
-      nickname: JSON.parse(window.localStorage.getItem("userInfo")).data[0]
-        .nickname,
+      userIdx: "",
+      nickname: "",
       privateB: [],
       teamB: [],
       newPBTitle: "",
@@ -31,11 +35,15 @@ export default class Main extends React.Component {
         })
       }
     };
+    const userIdx = JSON.parse(window.localStorage.getItem("userInfo")).data[0]
+      .origin_user_idx;
+    const nickname = JSON.parse(window.localStorage.getItem("userInfo")).data[0]
+      .nickname;
 
     fetch("http://localhost:9089/lender", userInfo)
       .then(res => res.json())
       .then(allBoard => {
-        console.log(allBoard);
+        console.log(allBoard, "111111111111111111111111111111111111");
         //개인보드, 팀보드 배열로 나누기
         if (allBoard !== null) {
           const privateB = allBoard.filter(board => board.is_private === 0);
@@ -43,12 +51,16 @@ export default class Main extends React.Component {
           //setState
           this.setState({
             privateB: privateB,
-            teamB: teamB
+            teamB: teamB,
+            userIdx,
+            nickname
           });
         } else {
           this.setState({
             privateB: [],
-            teamB: []
+            teamB: [],
+            userIdx,
+            nickname
           });
         }
       });
@@ -82,7 +94,6 @@ export default class Main extends React.Component {
 
   //보드 추가하기
   addBoard = isPrivate => {
-    
     let title = "";
     let desc = "";
 
@@ -119,7 +130,7 @@ export default class Main extends React.Component {
           body: JSON.stringify(boardData),
           headers: { "Content-Type": "application/json" }
         };
-        fetch("http://localhost:9089/user_board", secondFetch); //두번 째 Fetch를 통해, DB user_board Table 데이터를 추가한다. 
+        fetch("http://localhost:9089/user_board", secondFetch); //두번 째 Fetch를 통해, DB user_board Table 데이터를 추가한다.
       })
       .then(res => this.reRender()) // 그리고 세번 째 fetch를 통해 해당 사용자의 모든 보드 정보들을 불러온다.
       .then(res => {
@@ -156,6 +167,9 @@ export default class Main extends React.Component {
   };
 
   render() {
+    if(this.props.isLogin === false) {
+      this.props.history.push('/login')
+    } else {
     return (
       <div>
         {/* Top Navigation Bar */}
@@ -164,6 +178,14 @@ export default class Main extends React.Component {
             <h1>모두의리스트</h1>
             <h3>{this.state.nickname}</h3>
           </div>
+          <button
+            onClick={() => {
+              window.localStorage.removeItem("userInfo");
+              this.props.history.push("/login");
+            }}
+          >
+            로그아웃
+          </button>
         </nav>
 
         <div className="main_center">
@@ -267,5 +289,5 @@ export default class Main extends React.Component {
         </div>
       </div>
     );
-  }
+  }}
 }
