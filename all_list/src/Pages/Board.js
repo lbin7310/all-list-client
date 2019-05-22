@@ -11,6 +11,7 @@ class Board extends React.Component {
   constructor () {
     super()
     this.state = {
+      allData:'',
       data: fakeData,
       boardIdx: 10,
       boardName: '',
@@ -34,10 +35,9 @@ class Board extends React.Component {
   }
 
   componentDidMount () {
-    const { boardIdx, userId } = this.state;
+    const { boardIdx, userId, allData } = this.state;
     this.reFetch(boardIdx)
     .then( json => {
-       console.log(json);
       return this.setState({
         data: json,
         boardIdx: json[0].origin_board_idx,
@@ -47,12 +47,30 @@ class Board extends React.Component {
         isPrivate: json[0].is_private
       }) 
     });
+
+    fetch('http://localhost:9089/lender', {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "info": JSON.stringify({
+          origin_user_idx: Number(userId)
+        })
+      }
+    })
+      .then(res => res.json())
+      .then(json => {
+        if (json !== null) {
+         return this.setState({
+            allData: json
+          })
+        }
+      })
   }
 
   // sidebar에서 board 이름을 클릭하게 되면 Top에 이름이 바뀌면서 
   // Top의 boardNamde 바뀌게 된다.
   handleClickChange = (e, sd) => {
-    let { userId } = this.state;
+    let { userId, data } = this.state;
     let cData = [...sd];
     for (let i = 0; i < cData.length; i++) {
 
@@ -60,7 +78,6 @@ class Board extends React.Component {
   
         this.reFetch(Number(e))
         .then( json => {
-          console.log(json)
           this.setState({
             data: json,
             boardIdx: cData[i].origin_board_idx,
@@ -134,10 +151,11 @@ class Board extends React.Component {
           return this.reFetch(boardIdx);
         }
       })
-      .then(json => 
-        this.setState({
+      .then(json => {
+        return this.setState({
           data: json
         })
+      }
       );
     }
   }
@@ -258,14 +276,12 @@ class Board extends React.Component {
   }
   // 보더 이름 수정.
   handleEditBoard = (boardIdx, edit) => {
-
-
-    let { boardName, boardDesc } = this.state
+    let { userId } = this.state;
 
     let boardEdit = {
       origin_board_idx: boardIdx,
-      board_title: (edit.boardName !== boardName ? edit.boardName : boardName),
-      board_desc: (edit.boardDesc !== boardDesc ? edit.boardDesc : boardDesc)
+      board_title: edit.boardName,
+      board_desc: edit.boardDesc
     }
 
     let boardEditReq = {
@@ -284,13 +300,32 @@ class Board extends React.Component {
       }
     })
     .then( json => {
-      console.log(json);
+      
       this.setState({
         data: json,
         boardName: json[0].board_title,
         boardDesc: json[0].board_desc
       })
     });
+
+    fetch('http://localhost:9089/lender', {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "info": JSON.stringify({
+          origin_user_idx: Number(userId)
+        })
+      }
+    })
+      .then(res => res.json())
+      .then(json => {
+        if (json !== null) {
+         return this.setState({
+            allData: json
+          })
+        }
+      })
+
   }
 
   render() {
@@ -300,8 +335,9 @@ class Board extends React.Component {
             boardIdx,
             inputValue,
             isPrivate,
-            userId } = this.state;
-
+            userId,
+            allData } = this.state;
+    
     return (
       <div>
         <Top boardDesc={boardDesc} 
@@ -311,10 +347,10 @@ class Board extends React.Component {
         onEditBoard={this.handleEditBoard}
         />
         <div className='side_bar'>
-          <Sidebar data={data} 
+          <Sidebar data={allData} 
           onClickBoard={this.handleClickChange}
           userId={userId}
-          />
+        />
         </div>
         <Lists data={data} 
         boardIdx={boardIdx}

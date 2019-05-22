@@ -84,7 +84,13 @@ class Top extends Component {
             <div className="board_Description">{boardDesc}</div>
             <button onClick={this.handleToggleEdit}>수정</button>
           </div>
-          <Link to={`/team/${boardIdx}`}>
+          <Link to= {{
+              pathname: `/user_board/${boardIdx}`,
+              state: {
+                board_title: boardName
+              }
+            }
+          }>
             <button style={{ display: isPrivate ? 'block' : 'none' }}>팀원관리</button>
           </Link>
         </div>
