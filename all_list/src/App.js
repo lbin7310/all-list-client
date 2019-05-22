@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Link, withRouter } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 import Board from './Pages/Board';
 import Login from './Pages/Login';
 import Main from './Pages/Main';
@@ -14,10 +14,12 @@ class App extends React.Component {
   render () {
     return (
       <Router>
-        <Route path="/login" exact component={Login}/>
-        <Route path="/main" component={Main}/>
-        <Route path="/board" component={Board}/>
-        <Route path="/team" component={Team}/>
+        <Switch>
+          <Route path="/login" exact component={Login}/>
+          <Route path="/main" component={Main}/>
+          <Route path="/board" component={Board}/>
+          <Route path="/user_board" component={Team}/>
+        </Switch>
       </Router>
     )
   }

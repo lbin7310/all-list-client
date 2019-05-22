@@ -17,13 +17,12 @@ class Sidebar extends Component {
       headers: {
         "Content-Type": "application/json",
         "info": JSON.stringify({
-          origin_user_idx: userId
+          origin_user_idx: Number(userId)
         })
       }
     })
       .then(res => res.json())
       .then(json => {
-        console.log(json);
         if (json !== null) {
           this.setState({
             sidedata: json
