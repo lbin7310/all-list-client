@@ -30,11 +30,12 @@ class Team extends React.Component {
   }
 
   reRender = () => {
-    const boardIdx = { origin_board_idx: this.props.match.params.id };
-
+    const boardIdx =this.props.match.params.id;
+    const boardIdxInfo = { origin_board_idx: boardIdx };
+    
     const currentBoardInfo = {
       method: "POST",
-      body: JSON.stringify(boardIdx),
+      body: JSON.stringify(boardIdxInfo),
       headers: {
         "Content-Type": "application/json"
       }
@@ -43,11 +44,14 @@ class Team extends React.Component {
     fetch("http://localhost:9089/user_board/find", currentBoardInfo)
       .then(res => res.json())
       .then(json => {
+        console.log(json, '111111111111111111111111111')
         this.setState({
           memberList: json,
           board_idx: boardIdx
         });
-      });
+      })
+      .then(res => console.log(this.state,'0000000000000000000000000'));
+      console.log(this.state.board_idx)
   };
 
   handleOpenModal = () => {
