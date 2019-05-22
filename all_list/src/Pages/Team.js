@@ -25,7 +25,7 @@ class Team extends React.Component {
       searchValue: "",
       addUser: null,
       board_idx: null,
-      board_title: "Google HR Team"
+      board_title: ""
     };
   }
 
@@ -63,7 +63,7 @@ class Team extends React.Component {
   };
 
   addMemberList = (e, idx) => {
-    // e.preventDefault();
+    e.preventDefault();
 
     const addMember = {
       origin_user_idx: idx,
@@ -150,7 +150,7 @@ class Team extends React.Component {
           this.handleOpenModal();
         }
       });
-    //json = [{email: , nickname : origin_user_idx, password: }]
+  
   };
 
   componentDidMount = () => {
