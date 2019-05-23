@@ -8,8 +8,8 @@ const PrivateBoard = ({ title, desc, deleteBoard, idx }) => {
       <Link to={`/board/${idx}`}>
         <h3>{title}</h3>
         <h6>{desc}</h6>
-        <button onClick={() => deleteBoard(idx)}>삭제</button>
       </Link>
+      <button onClick={() => deleteBoard(idx)}>삭제</button>
     </li>
   );
 };

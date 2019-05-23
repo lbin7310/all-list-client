@@ -2,7 +2,7 @@ import React from "react";
 import Email from "./Email";
 import Nickname from "./Nickname";
 import Password from "./Password";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import serverUrl from "../../Pages/serverURL"
 
 class Signup extends React.Component {
   constructor(props) {
@@ -52,7 +52,7 @@ class Signup extends React.Component {
         email: ""
       });
     } else {
-      fetch("http://localhost:9089/user/email", email_info)
+      fetch( serverUrl+"/user/email", email_info)
         .then(res => res.json())
         .then(json => {
           if (json === true) {
@@ -98,7 +98,7 @@ class Signup extends React.Component {
     if (chkNickname(this.state.nickname) === false) {
       alert("한글,영문 대소문자 3~10자리만 사용 가능합니다");
     } else {
-      fetch("http://localhost:9089/user/nick", nickname_info)
+      fetch( serverUrl+"/user/nick", nickname_info)
         .then(res => res.json())
         .then(json => {
           if (json === true) {
@@ -190,7 +190,7 @@ class Signup extends React.Component {
       pw === re_pw &&
       re_pw === pwCheck
     ) {
-      fetch("http://localhost:9089/user", signup_info)
+      fetch(serverUrl+"/user", signup_info)
         .then(alert("가입이 완료되었습니다."))
         .then(this.props.history.push("/"));
     } else {

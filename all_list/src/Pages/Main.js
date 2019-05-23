@@ -9,6 +9,7 @@ import {
   Switch,
   Redirect
 } from "react-router-dom";
+import serverUrl from "../Pages/serverURL"
 
 export default class Main extends React.Component {
   constructor() {
@@ -26,6 +27,8 @@ export default class Main extends React.Component {
   }
   //보드 추가, 삭제 후 새롭게 GET요청을 통해 데이터를 받은 후 리랜딩해주는 함수
   reRender = () => {
+
+    if(window.localStorage.getItem("userInfo")){
     const userIdx = JSON.parse(window.localStorage.getItem("userInfo")).data[0]
       .origin_user_idx;
     const nickname = JSON.parse(window.localStorage.getItem("userInfo")).data[0]
@@ -41,7 +44,7 @@ export default class Main extends React.Component {
       }
     };
 
-    fetch("http://localhost:9089/lender", userInfo)
+    fetch(serverUrl+"/lender", userInfo)
       .then(res => res.json())
       .then(allBoard => {
         console.log(allBoard, "111111111111111111111111111111111111");
@@ -65,6 +68,7 @@ export default class Main extends React.Component {
           });
         }
       });
+    }  
   };
 
   //새로운 보드 타이틀 인풋창
@@ -119,7 +123,7 @@ export default class Main extends React.Component {
       headers: { "Content-Type": "application/json" }
     };
 
-    fetch("http://localhost:9089/board", firstFetch) //첫번째 Fetch
+    fetch(serverUrl+"/board", firstFetch) //첫번째 Fetch
       .then(res => res.json())
       .then(json => {
         const boardData = {
@@ -131,7 +135,7 @@ export default class Main extends React.Component {
           body: JSON.stringify(boardData),
           headers: { "Content-Type": "application/json" }
         };
-        fetch("http://localhost:9089/user_board", secondFetch); //두번 째 Fetch를 통해, DB user_board Table 데이터를 추가한다.
+        fetch(serverUrl+"/user_board", secondFetch); //두번 째 Fetch를 통해, DB user_board Table 데이터를 추가한다.
       })
       .then(res => this.reRender()) // 그리고 세번 째 fetch를 통해 해당 사용자의 모든 보드 정보들을 불러온다.
       .then(res => {
@@ -157,8 +161,8 @@ export default class Main extends React.Component {
       headers: { "Content-Type": "application/json" }
     };
 
-    fetch("http://localhost:9089/board", deleteBoard).then(res =>
-      this.reRender()
+    fetch(serverUrl+"/board", deleteBoard)
+    .then(res => this.reRender()
     );
   };
 
@@ -168,9 +172,11 @@ export default class Main extends React.Component {
   };
 
   render() {
+    console.log(this.props, '1111111111312312312312312312312')
     if (this.props.isLogin === false) {
-      this.props.history.push("/");
-    } else {
+      return <Redirect to="/" />
+    }
+
       return (
         <div>
           {/* Top Navigation Bar */}
@@ -182,6 +188,7 @@ export default class Main extends React.Component {
             <button
               onClick={() => {
                 window.localStorage.removeItem("userInfo");
+                this.props.handleLogin();
                 this.props.history.push("/");
               }}
             >
@@ -292,4 +299,4 @@ export default class Main extends React.Component {
       );
     }
   }
-}
+
