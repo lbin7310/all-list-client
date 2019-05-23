@@ -1,26 +1,92 @@
-import React from 'react';
-import Card from './Card';
-import './List.css';
+import React, { Component } from 'react';
+import Cards from './Cards';
 
-export default class List extends React.Component {
-  constructor () {
+class List extends Component {
+  constructor() {
     super()
-    this.state = {
+    this.state={
+      listNameEdit: '',
+      editing: false
+    }
+  }
+  handleInputListChange = (e) => {
+    this.setState({
+      listNameEdit: e.target.value
+    })
+  }
+  
+  // list의 이름을 변경하는 함수
+  handleToggleEdit = (v) => {
+    console.log('aaaaaaaa');
+    const { editing } = this.state;
+    this.setState({ editing: !editing });
+  }
 
+  componentDidUpdate(prevProps, prevState) {
+    const { onEditList, listValue, listIdx } = this.props;
+    const { listNameEdit } = this.state;
+
+    if (!prevState.editing && this.state.editing) {
+      this.setState({
+        listNameEdit: listValue
+      })
+    }
+
+    if (prevState.editing && !this.state.editing) {
+      onEditList( listIdx, listNameEdit )
     }
   }
 
-  render () {
-    return (
-      <div className="board_lists">
-        <div className="board_list">
-          <div className="board_title">자동차 사기</div>
-          <Card />
+  render() {
+    const { editing,
+            listNameEdit} = this.state;
+
+    const { onCardCreate,
+            boardIdx,
+            data,
+            onCardSubmit,
+            onRemoveCard,
+            onEditCard,
+            cardData,
+            onRemoveList } = this.props;
+
+    if ( editing ) {
+      return (
+        <div>
+          <div>
+            <input
+              value={listNameEdit}
+              placeholder="리스트 수정"
+              onChange={this.handleInputListChange}
+            />
+          </div>
+          <button onClick={this.handleToggleEdit}>적용</button>
+          <button onClick={ () => onRemoveList(cardData.listIdx, cardData.listName)}>삭제</button>
         </div>
-        <div className="board_list_plus">
-          <div className="board_list_plus_title">+ 추가하기</div>
+      )
+    }
+    return (
+      <div className="list" key={cardData.listIdx}>
+        <div className="list_title">
+          <div className="list_name">
+            <div>{cardData.listName}</div>
+            <div className="list_buttons">
+              <button onClick={this.handleToggleEdit}>수정</button>
+              <button onClick={ () => onRemoveList(cardData.listIdx, cardData.listName)}>삭제</button>
+            </div>
+          </div>
+          <Cards listIdx={cardData.listIdx}
+            onCardCreate={onCardCreate}
+            boardIdx={boardIdx}
+            data={data}
+            onCardSubmit={onCardSubmit}
+            onRemoveCard={onRemoveCard}
+            onEditCard={onEditCard}/>
         </div>
       </div>
     )
   }
 }
+
+
+export default List;

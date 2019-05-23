@@ -1,0 +1,11 @@
+.top_name_and_team_plus {
+  display: flex;
+}
+
+.board_Name {
+  font-size: 4.5em;
+}
+
+.board_Description {
+  font-size: 3em;
+}
