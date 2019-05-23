@@ -9,6 +9,7 @@ import {
   Switch,
   Redirect
 } from "react-router-dom";
+import serverUrl from "../Pages/serverURL"
 
 export default class Main extends React.Component {
   constructor() {
@@ -43,7 +44,7 @@ export default class Main extends React.Component {
       }
     };
 
-    fetch("http://localhost:9089/lender", userInfo)
+    fetch(serverUrl+"/lender", userInfo)
       .then(res => res.json())
       .then(allBoard => {
         console.log(allBoard, "111111111111111111111111111111111111");
@@ -122,7 +123,7 @@ export default class Main extends React.Component {
       headers: { "Content-Type": "application/json" }
     };
 
-    fetch("http://localhost:9089/board", firstFetch) //첫번째 Fetch
+    fetch(serverUrl+"/board", firstFetch) //첫번째 Fetch
       .then(res => res.json())
       .then(json => {
         const boardData = {
@@ -134,7 +135,7 @@ export default class Main extends React.Component {
           body: JSON.stringify(boardData),
           headers: { "Content-Type": "application/json" }
         };
-        fetch("http://localhost:9089/user_board", secondFetch); //두번 째 Fetch를 통해, DB user_board Table 데이터를 추가한다.
+        fetch(serverUrl+"/user_board", secondFetch); //두번 째 Fetch를 통해, DB user_board Table 데이터를 추가한다.
       })
       .then(res => this.reRender()) // 그리고 세번 째 fetch를 통해 해당 사용자의 모든 보드 정보들을 불러온다.
       .then(res => {
@@ -160,7 +161,7 @@ export default class Main extends React.Component {
       headers: { "Content-Type": "application/json" }
     };
 
-    fetch("http://localhost:9089/board", deleteBoard)
+    fetch(serverUrl+"/board", deleteBoard)
     .then(res => this.reRender()
     );
   };

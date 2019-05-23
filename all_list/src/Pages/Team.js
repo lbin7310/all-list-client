@@ -9,6 +9,7 @@ import {
 import "./Team.css";
 import Modal from "../Component/Team/Modal";
 import ModalPortal from "../Component/Team/ModalPortal";
+import serverUrl from "../Pages/serverURL";
 
 //board네임 - Props로 받는다.
 //닉네임 - 로컬스토리지서 받는다.
@@ -41,7 +42,7 @@ class Team extends React.Component {
       }
     };
 
-    fetch("http://localhost:9089/user_board/find", currentBoardInfo)
+    fetch(serverUrl + "/user_board/find", currentBoardInfo)
       .then(res => res.json())
       .then(json => {
         this.setState({
@@ -83,7 +84,7 @@ class Team extends React.Component {
       }
     };
 
-    fetch("http://localhost:9089/user_board", newMember)
+    fetch(serverUrl + "/user_board", newMember)
       .then(res => res.json())
       .then(json => {
         if (json === true) {
@@ -112,7 +113,7 @@ class Team extends React.Component {
       }
     };
     // 서버로 부터 memberList데이터를 다시 받아 리랜더한다.
-    fetch("http://localhost:9089/user_board", deleteInfo)
+    fetch(serverUrl + "/user_board", deleteInfo)
       .then(res => res.json)
       .then(json => {
         this.reRender();
@@ -138,7 +139,7 @@ class Team extends React.Component {
       headers: { "Content-Type": "application/json" }
     };
     // JSON.stringify({ nickname: this.state.searchValue }
-    fetch("http://localhost:9089/user_board/search", searchNickname)
+    fetch(serverUrl + "/user_board/search", searchNickname)
       .then(res => res.json())
       .then(json => {
         if (json.length === 0) {
@@ -185,7 +186,10 @@ class Team extends React.Component {
           <h3>Team Members</h3>
           {/* 스테이트에 저장 된 현재 팀원목록들을 MemberList로 보낸다 */}
           <ul>
-            {this.state.memberList.filter(member =>  member.origin_user_idx !==
+            {this.state.memberList
+              .filter(
+                member =>
+                  member.origin_user_idx !==
                   JSON.parse(window.localStorage.getItem("userInfo")).data[0]
                     .origin_user_idx
               )
@@ -196,7 +200,7 @@ class Team extends React.Component {
                     origin_user_idx={member.origin_user_idx}
                     nickname={member.nickname}
                     email={member.email}
-                    key = {idx}
+                    key={idx}
                     // {member.orign_userboard_idx}
                     handleDelete={this.handleDelete}
                   />

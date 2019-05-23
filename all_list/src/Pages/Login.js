@@ -2,6 +2,7 @@ import React from "react";
 import Signup from "../Component/Login/Signup";
 import { BrowserRouter as Router, Route, Link, Redirect } from "react-router-dom";
 import './Login.css'
+import serverUrl from "../Pages/serverURL"
 
 class Login extends React.Component {
   constructor(props) {
@@ -37,7 +38,7 @@ class Login extends React.Component {
       }
     };
 
-    fetch("http://localhost:9089/login", login_info)
+    fetch( serverUrl+"/login", login_info)
       .then(res => {
         return res.json();
       })

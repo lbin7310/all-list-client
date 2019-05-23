@@ -5,6 +5,7 @@ import Lists from "../Component/Board/Lists";
 import "./Board.css";
 import { fakeData } from "../fakeData";
 import { Redirect } from "react-router-dom";
+import serverUrl from "../Pages/serverURL"
 
 // process env node_env
 
@@ -17,8 +18,8 @@ class Board extends React.Component {
       boardIdx: null,
       boardName: "",
       boardDesc: "",
-      userId: JSON.parse(window.localStorage.getItem("userInfo")).data[0]
-        .origin_user_idx,
+      userId: window.localStorage.getItem("userInfo") ? JSON.parse(window.localStorage.getItem("userInfo")).data[0] 
+        .origin_user_idx : "",
       isPrivate: 0,
       boardNameEdit: "",
       boardDescriptionEdit: ""
@@ -26,7 +27,7 @@ class Board extends React.Component {
   }
 
   reFetch = boardidx => {
-    return fetch("http://localhost:9089/board/", {
+    return fetch(serverUrl+"/board/", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -45,14 +46,14 @@ class Board extends React.Component {
           boardIdx: json[0].origin_board_idx,
           boardName: json[0].board_title,
           boardDesc: json[0].board_desc,
-          userId: JSON.parse(window.localStorage.getItem("userInfo")).data[0]
-            .origin_user_idx,
+          userId:  window.localStorage.getItem("userInfo") ? JSON.parse(window.localStorage.getItem("userInfo")).data[0] 
+          .origin_user_idx : "",
           isPrivate: json[0].is_private
         });
       }
     });
 
-    fetch("http://localhost:9089/lender", {
+    fetch(serverUrl+"/lender", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -112,7 +113,7 @@ class Board extends React.Component {
       }
     };
 
-    fetch("http://localhost:9089/list", listObj)
+    fetch(serverUrl+"/list", listObj)
       .then(res => res.json())
       .then(json => {
         if (json) {
@@ -148,7 +149,7 @@ class Board extends React.Component {
     };
 
     if (v1 !== null) {
-      fetch("http://localhost:9089/card", cardObj)
+      fetch(serverUrl+"/card", cardObj)
         .then(res => res.json())
         .then(json => {
           if (json) {
@@ -171,7 +172,7 @@ class Board extends React.Component {
       origin_card_idx: v
     };
 
-    fetch("http://localhost:9089/card", {
+    fetch(serverUrl+"/card", {
       method: "DELETE",
       body: JSON.stringify(removeReq),
       headers: {
@@ -201,7 +202,7 @@ class Board extends React.Component {
       card_desc: editValue
     };
 
-    fetch("http://localhost:9089/card", {
+    fetch(serverUrl+"/card", {
       method: "PUT",
       headers: {
         "Content-Type": "application/json"
@@ -229,7 +230,7 @@ class Board extends React.Component {
       list_title: null
     };
 
-    fetch("http://localhost:9089/list", {
+    fetch(serverUrl+"/list", {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json"
@@ -257,7 +258,7 @@ class Board extends React.Component {
       list_title: editValue
     };
 
-    fetch("http://localhost:9089/list", {
+    fetch(serverUrl+"/list", {
       method: "PUT",
       headers: {
         "Content-Type": "application/json"
@@ -294,7 +295,7 @@ class Board extends React.Component {
       body: JSON.stringify(boardEdit)
     };
 
-    fetch("http://localhost:9089/board", boardEditReq)
+    fetch(serverUrl+"/board", boardEditReq)
       .then(res => res.json())
       .then(json => {
         if (json) {
@@ -309,7 +310,7 @@ class Board extends React.Component {
         });
       });
 
-    fetch("http://localhost:9089/lender", {
+    fetch(serverUrl+"/lender", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
