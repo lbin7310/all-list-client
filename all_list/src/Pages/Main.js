@@ -160,8 +160,8 @@ export default class Main extends React.Component {
       headers: { "Content-Type": "application/json" }
     };
 
-    fetch("http://localhost:9089/board", deleteBoard).then(res =>
-      this.reRender()
+    fetch("http://localhost:9089/board", deleteBoard)
+    .then(res => this.reRender()
     );
   };
 
@@ -187,6 +187,7 @@ export default class Main extends React.Component {
             <button
               onClick={() => {
                 window.localStorage.removeItem("userInfo");
+                this.props.handleLogin();
                 this.props.history.push("/");
               }}
             >

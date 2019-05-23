@@ -1,58 +1,53 @@
-import React, { Component } from 'react';
-import { Link, withRouter } from 'react-router-dom';
-import './Top.css'
+import React, { Component } from "react";
+import { Link, withRouter } from "react-router-dom";
+import "./Top.css";
 
 class Top extends Component {
-  constructor () {
-    super()
+  constructor() {
+    super();
     this.state = {
-      boardEditName: '',
-      boardEditDesc: '',
+      boardEditName: "",
+      boardEditDesc: "",
       editing: false
-    }
+    };
   }
 
   handleToggleEdit = () => {
-    console.log('aaaa');
+    console.log("aaaa");
     const { editing } = this.state;
-    this.setState({ editing: !editing })
-  }
+    this.setState({ editing: !editing });
+  };
 
-  handleChange = (e) => {
+  handleChange = e => {
     const { name, value } = e.target;
     this.setState({
-      [ name ] : value
-    })
-  }
+      [name]: value
+    });
+  };
 
-  componentDidUpdate (prevProps, prevState) {
-
+  componentDidUpdate(prevProps, prevState) {
     const { boardName, boardDesc, onEditBoard, boardIdx } = this.props;
     const { boardEditName, boardEditDesc } = this.state;
     if (!prevState.editing && this.state.editing) {
       this.setState({
         boardEditName: boardName,
         boardEditDesc: boardDesc
-      })
+      });
     }
 
-    if (prevState.editing && !this.state.editing){
+    if (prevState.editing && !this.state.editing) {
       onEditBoard(boardIdx, {
         boardName: boardEditName,
         boardDesc: boardEditDesc
-      })
+      });
     }
   }
 
-
   render() {
-    const { boardDesc,
-            boardName,
-            isPrivate,
-            boardIdx } = this.props
-    const { editing } = this.state
+    const { boardDesc, boardName, isPrivate, boardIdx } = this.props;
+    const { editing } = this.state;
 
-    const { boardEditDesc, boardEditName } = this.state
+    const { boardEditDesc, boardEditName } = this.state;
     if (editing) {
       return (
         <div>
@@ -74,7 +69,7 @@ class Top extends Component {
           </div>
           <button onClick={this.handleToggleEdit}>적용</button>
         </div>
-      )
+      );
     }
     return (
       <nav>
@@ -84,19 +79,31 @@ class Top extends Component {
             <div className="board_Description">{boardDesc}</div>
             <button onClick={this.handleToggleEdit}>수정</button>
           </div>
-          <Link to= {{
+          <Link
+            to={{
               pathname: `/user_board/${boardIdx}`,
               state: {
                 board_title: boardName
               }
-            }
-          }>
-            <button style={{ display: isPrivate ? 'block' : 'none' }}>팀원관리</button>
+            }}
+          >
+            <button style={{ display: isPrivate ? "block" : "none" }}>
+              팀원관리
+            </button>
           </Link>
         </div>
         <div>2019</div>
+        <button
+          onClick={() => {
+            window.localStorage.removeItem("userInfo");
+            this.props.handleLogin();
+            this.props.history.push("/");
+          }}
+        >
+          로그아웃
+        </button>
       </nav>
-    )
+    );
   }
 }
 

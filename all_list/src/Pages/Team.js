@@ -30,9 +30,9 @@ class Team extends React.Component {
   }
 
   reRender = () => {
-    const boardIdx =this.props.match.params.id;
+    const boardIdx = this.props.match.params.id;
     const boardIdxInfo = { origin_board_idx: boardIdx };
-    
+
     const currentBoardInfo = {
       method: "POST",
       body: JSON.stringify(boardIdxInfo),
@@ -48,8 +48,8 @@ class Team extends React.Component {
           memberList: json,
           board_idx: boardIdx
         });
-      })
-      console.log(this.state.board_idx)
+      });
+    console.log(this.state.board_idx);
   };
 
   handleOpenModal = () => {
@@ -90,7 +90,7 @@ class Team extends React.Component {
           this.reRender();
         }
       })
-      .then(this.handleCloseModal() )
+      .then(this.handleCloseModal());
   };
 
   // 해당 보드에서 해당 유저아이디를 삭제
@@ -130,7 +130,7 @@ class Team extends React.Component {
   //있으면, state의 addUser에 값을 setState해준다.
   //리랜딩이 되면 handleOpenModal을 통해 모달을 열어주며 addUser의 값을 Modal Component로 넘겨준다.
   searchUser = e => {
-      e.preventDefault();
+    e.preventDefault();
 
     const searchNickname = {
       method: "POST",
@@ -153,7 +153,6 @@ class Team extends React.Component {
           this.handleOpenModal();
         }
       });
-  
   };
 
   componentDidMount = () => {
@@ -162,71 +161,74 @@ class Team extends React.Component {
   };
 
   render() {
-
     if (this.props.isLogin === false) {
-      return <Redirect to="/" />
+      return <Redirect to="/" />;
     }
 
     return (
-        <div>
-          <header className="Team_header">
-            <Link to= {`/board/${this.state.board_idx}`} >
-              {this.props.location.state.board_title}
-            </Link>
-            <button
-              onClick={() => {
-                window.localStorage.removeItem("userInfo");
-                this.props.history.push("/");
-              }}
-            >
-              로그아웃
-            </button>
-          </header>
-          <section className="Team_sidebar_left">
-            <h3>Team Members</h3>
-            {/* 스테이트에 저장 된 현재 팀원목록들을 MemberList로 보낸다 */}
-            <ul>
-              {this.state.memberList.map((member, idx) => {
-                console.log(idx);
+      <div>
+        <header className="Team_header">
+          <Link to={`/board/${this.state.board_idx}`}>
+            {this.props.location.state.board_title}
+          </Link>
+          <button
+            onClick={() => {
+              window.localStorage.removeItem("userInfo");
+              this.props.handleLogin();
+              this.props.history.push("/");
+            }}
+          >
+            로그아웃
+          </button>
+        </header>
+        <section className="Team_sidebar_left">
+          <h3>Team Members</h3>
+          {/* 스테이트에 저장 된 현재 팀원목록들을 MemberList로 보낸다 */}
+          <ul>
+            {this.state.memberList.filter(member =>  member.origin_user_idx !==
+                  JSON.parse(window.localStorage.getItem("userInfo")).data[0]
+                    .origin_user_idx
+              )
+              .map((member, idx) => {
                 return (
                   <MemberList
                     listIdx={idx}
                     origin_user_idx={member.origin_user_idx}
                     nickname={member.nickname}
                     email={member.email}
-                    key={member.orign_userboard_idx}
+                    key = {idx}
+                    // {member.orign_userboard_idx}
                     handleDelete={this.handleDelete}
                   />
                 );
               })}
-            </ul>
-          </section>
-          <section className="Team_sidebar_right">
-            <h4>니 친구를 초대해!!!!</h4>
-            <div>
-              <input
-                className="userNickname"
-                type="text"
-                placeholder="유저이름을 입력하세요"
-                onChange={this.handleSearch}
-              />
-              {/* <button onClick={this.handleOpenModal}>친구찾기</button> */}
-              <button onClick={this.searchUser}>친구찾기</button>
-              {this.state.modal && (
-                <ModalPortal>
-                  {/* ModalPotal의 지시에 따라, APP내부가 아닌 APP외부의 DOM에 Modal을 띄워줌. --> index.html 확인 */}
-                  <Modal
-                    handleCloseModal={this.handleCloseModal}
-                    addMemberList={this.addMemberList}
-                    addUser={this.state.addUser}
-                    memberList={this.state.memberList}
-                  />
-                </ModalPortal>
-              )}
-            </div>
-          </section>
-        </div>
-    
+          </ul>
+        </section>
+        <section className="Team_sidebar_right">
+          <h4>니 친구를 초대해!!!!</h4>
+          <div>
+            <input
+              className="userNickname"
+              type="text"
+              placeholder="유저이름을 입력하세요"
+              onChange={this.handleSearch}
+            />
+            {/* <button onClick={this.handleOpenModal}>친구찾기</button> */}
+            <button onClick={this.searchUser}>친구찾기</button>
+            {this.state.modal && (
+              <ModalPortal>
+                {/* ModalPotal의 지시에 따라, APP내부가 아닌 APP외부의 DOM에 Modal을 띄워줌. --> index.html 확인 */}
+                <Modal
+                  handleCloseModal={this.handleCloseModal}
+                  addMemberList={this.addMemberList}
+                  addUser={this.state.addUser}
+                  memberList={this.state.memberList}
+                />
+              </ModalPortal>
+            )}
+          </div>
+        </section>
+      </div>
     );
   }
 }

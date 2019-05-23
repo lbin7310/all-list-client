@@ -4,9 +4,7 @@ import Top from "../Component/Board/Top";
 import Lists from "../Component/Board/Lists";
 import "./Board.css";
 import { fakeData } from "../fakeData";
-import {
-  Redirect
-} from "react-router-dom";
+import { Redirect } from "react-router-dom";
 
 // process env node_env
 
@@ -19,7 +17,8 @@ class Board extends React.Component {
       boardIdx: null,
       boardName: "",
       boardDesc: "",
-      userId: 0,
+      userId: JSON.parse(window.localStorage.getItem("userInfo")).data[0]
+        .origin_user_idx,
       isPrivate: 0,
       boardNameEdit: "",
       boardDescriptionEdit: ""
@@ -40,14 +39,17 @@ class Board extends React.Component {
     const { userId } = this.state;
     const boardIdx = this.props.match.params.id;
     this.reFetch(boardIdx).then(json => {
-      return this.setState({
-        data: json,
-        boardIdx: json[0].origin_board_idx,
-        boardName: json[0].board_title,
-        boardDesc: json[0].board_desc,
-        userId: JSON.parse(window.localStorage.getItem("userInfo")).data[0].origin_user_idx,
-        isPrivate: json[0].is_private
-      });
+      if (json.length > 0) {
+        return this.setState({
+          data: json,
+          boardIdx: json[0].origin_board_idx,
+          boardName: json[0].board_title,
+          boardDesc: json[0].board_desc,
+          userId: JSON.parse(window.localStorage.getItem("userInfo")).data[0]
+            .origin_user_idx,
+          isPrivate: json[0].is_private
+        });
+      }
     });
 
     fetch("http://localhost:9089/lender", {
@@ -353,6 +355,7 @@ class Board extends React.Component {
           isPrivate={isPrivate}
           boardIdx={boardIdx}
           onEditBoard={this.handleEditBoard}
+          handleLogin={this.props.handleLogin}
         />
         <div className="side_bar">
           <Sidebar

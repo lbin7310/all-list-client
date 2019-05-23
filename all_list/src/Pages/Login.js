@@ -48,13 +48,14 @@ class Login extends React.Component {
           alert("로그인되었습니다");
           // 서버로 부터 받은 JSON형태의 데이터를 로컬스토리지에 우선 저장한다.
           window.localStorage.setItem("userInfo", JSON.stringify(json));
+          this.props.handleLogin()
           // Main페이지로 이동한다.
           // this.props.history.push("/main");
         } else {
           alert("아이디 혹은 비밀번호를 확인하세요");
         }
       })
-      .then(res=>this.props.handleLogin());
+      
   };
 
   render() {
