@@ -26,6 +26,8 @@ export default class Main extends React.Component {
   }
   //보드 추가, 삭제 후 새롭게 GET요청을 통해 데이터를 받은 후 리랜딩해주는 함수
   reRender = () => {
+
+    if(window.localStorage.getItem("userInfo")){
     const userIdx = JSON.parse(window.localStorage.getItem("userInfo")).data[0]
       .origin_user_idx;
     const nickname = JSON.parse(window.localStorage.getItem("userInfo")).data[0]
@@ -65,6 +67,7 @@ export default class Main extends React.Component {
           });
         }
       });
+    }  
   };
 
   //새로운 보드 타이틀 인풋창
@@ -168,9 +171,11 @@ export default class Main extends React.Component {
   };
 
   render() {
+    console.log(this.props, '1111111111312312312312312312312')
     if (this.props.isLogin === false) {
-      this.props.history.push("/");
-    } else {
+      return <Redirect to="/" />
+    }
+
       return (
         <div>
           {/* Top Navigation Bar */}
@@ -292,4 +297,4 @@ export default class Main extends React.Component {
       );
     }
   }
-}
+

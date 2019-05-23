@@ -2,9 +2,9 @@ import React from "react";
 import MemberList from "../Component/Team/MemberList";
 import {
   BrowserRouter as Router,
-  Route,
   Link,
-  withRouter
+  withRouter,
+  Redirect
 } from "react-router-dom";
 import "./Team.css";
 import Modal from "../Component/Team/Modal";
@@ -162,6 +162,11 @@ class Team extends React.Component {
   };
 
   render() {
+
+    if (this.props.isLogin === false) {
+      return <Redirect to="/" />
+    }
+
     return (
         <div>
           <header className="Team_header">
