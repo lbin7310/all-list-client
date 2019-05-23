@@ -1,7 +1,7 @@
 import React from "react";
 import Signup from "../Component/Login/Signup";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-// import Nickname from "../Component/Login/Nickname";
+import './Login.css'
 
 class Login extends React.Component {
   constructor(props) {
@@ -28,12 +28,12 @@ class Login extends React.Component {
   handleSubmit = e => {
     e.preventDefault();
 
-    const userInfo = this.state
+    const userInfo = this.state;
     const login_info = {
-      method: 'GET',
+      method: "GET",
       headers: {
-      "Content-Type": "application/json",
-      "info": JSON.stringify(userInfo)
+        "Content-Type": "application/json",
+        info: JSON.stringify(userInfo)
       }
     };
 
@@ -42,14 +42,14 @@ class Login extends React.Component {
         return res.json();
       })
       .then(json => {
-        console.log(json)
+        console.log(json);
         //json형식 {idx: 8, nickname: "noh", email: "noh@gmail.com", success: true}
         if (json.success === true) {
           alert("로그인되었습니다");
           // 서버로 부터 받은 JSON형태의 데이터를 로컬스토리지에 우선 저장한다.
-          window.localStorage.setItem('userInfo', JSON.stringify(json))
+          window.localStorage.setItem("userInfo", JSON.stringify(json));
           // Main페이지로 이동한다.
-          this.props.history.push("/main")
+          this.props.history.push("/main");
         } else {
           alert("아이디 혹은 비밀번호를 확인하세요");
         }
@@ -58,7 +58,9 @@ class Login extends React.Component {
 
   render() {
     return (
-        <div>
+      <div id="login_body">
+        <header>모두의 리스트</header>
+        <section>
           <form onSubmit={this.handleSubmit}>
             {/* 이메일 인풋창 */}
             <div>
@@ -88,7 +90,8 @@ class Login extends React.Component {
               </button>
             </div>
           </form>
-        </div>
+        </section>
+      </div>
     );
   }
 }

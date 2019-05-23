@@ -44,13 +44,11 @@ class Team extends React.Component {
     fetch("http://localhost:9089/user_board/find", currentBoardInfo)
       .then(res => res.json())
       .then(json => {
-        console.log(json, '111111111111111111111111111')
         this.setState({
           memberList: json,
           board_idx: boardIdx
         });
       })
-      .then(res => console.log(this.state,'0000000000000000000000000'));
       console.log(this.state.board_idx)
   };
 
@@ -91,7 +89,8 @@ class Team extends React.Component {
         if (json === true) {
           this.reRender();
         }
-      });
+      })
+      .then(this.handleCloseModal() )
   };
 
   // 해당 보드에서 해당 유저아이디를 삭제
@@ -164,16 +163,15 @@ class Team extends React.Component {
 
   render() {
     return (
-      <Router>
         <div>
           <header className="Team_header">
-            <Link to={`/board/${this.state.board_idx}`}>
+            <Link to= {`/board/${this.state.board_idx}`} >
               {this.props.location.state.board_title}
             </Link>
             <button
               onClick={() => {
                 window.localStorage.removeItem("userInfo");
-                this.props.history.push("/login");
+                this.props.history.push("/");
               }}
             >
               로그아웃
@@ -223,7 +221,7 @@ class Team extends React.Component {
             </div>
           </section>
         </div>
-      </Router>
+    
     );
   }
 }

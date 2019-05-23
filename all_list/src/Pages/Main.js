@@ -169,7 +169,7 @@ export default class Main extends React.Component {
 
   render() {
     if (this.props.isLogin === false) {
-      this.props.history.push("/login");
+      this.props.history.push("/");
     } else {
       return (
         <div>
@@ -182,7 +182,7 @@ export default class Main extends React.Component {
             <button
               onClick={() => {
                 window.localStorage.removeItem("userInfo");
-                this.props.history.push("/login");
+                this.props.history.push("/");
               }}
             >
               로그아웃

@@ -31,7 +31,9 @@ class Modal extends React.Component {
                 }
               }
               if (result === true) {
-                alert("이미 존재하는 유저입니다");
+                alert("이미 존재하는 유저입니다")
+                this.props.handleCloseModal();
+                
               } else {
                 this.props.addMemberList(e, userIdx);
               }

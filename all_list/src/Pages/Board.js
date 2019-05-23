@@ -21,7 +21,7 @@ class Board extends React.Component {
       boardIdx: null,
       boardName: '',
       boardDesc: '',
-      userId: JSON.parse(window.localStorage.getItem('userInfo')).data.origin_user_idx,
+      userId: JSON.parse(window.localStorage.getItem('userInfo')).data[0].origin_user_idx,
       isPrivate: 0,
       boardNameEdit: '',
       boardDescriptionEdit: ''
@@ -76,7 +76,7 @@ class Board extends React.Component {
   // sidebar에서 board 이름을 클릭하게 되면 Top에 이름이 바뀌면서 
   // Top의 boardNamde 바뀌게 된다.
   handleClickChange = (e, sd) => {
-    let { userId, data } = this.state;
+    let { userId, data, boardIdx } = this.state;
     let cData = [...sd];
     for (let i = 0; i < cData.length; i++) {
 
@@ -93,6 +93,7 @@ class Board extends React.Component {
             isPrivate: cData[i].is_private 
           })
         })
+        .then( res => this.props.history.push(`/board/${boardIdx}`))
       }
     }
   }
@@ -343,6 +344,7 @@ class Board extends React.Component {
             isPrivate,
             userId,
             allData } = this.state;
+            console.log(JSON.parse(window.localStorage.getItem('userInfo')).data[0].origin_user_idx)
     
     return (
       <div>
