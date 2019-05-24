@@ -2,7 +2,9 @@ import React from "react";
 import Email from "./Email";
 import Nickname from "./Nickname";
 import Password from "./Password";
-import serverUrl from "../../Pages/serverURL"
+import serverUrl from "../../Pages/serverURL";
+import "./Signup.css";
+
 
 class Signup extends React.Component {
   constructor(props) {
@@ -52,7 +54,7 @@ class Signup extends React.Component {
         email: ""
       });
     } else {
-      fetch( serverUrl+"/user/email", email_info)
+      fetch(serverUrl + "/user/email", email_info)
         .then(res => res.json())
         .then(json => {
           if (json === true) {
@@ -80,7 +82,7 @@ class Signup extends React.Component {
 
     const chkNickname = function(str) {
       //한글,영문,숫자 혼합 3~10자리 가능
-      var regNm = /^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|\*]{3,10}$/
+      var regNm = /^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|\*]{3,10}$/;
       return regNm.test(str) ? true : false;
     };
 
@@ -98,7 +100,7 @@ class Signup extends React.Component {
     if (chkNickname(this.state.nickname) === false) {
       alert("한글,영문 대소문자 3~10자리만 사용 가능합니다");
     } else {
-      fetch( serverUrl+"/user/nick", nickname_info)
+      fetch(serverUrl + "/user/nick", nickname_info)
         .then(res => res.json())
         .then(json => {
           if (json === true) {
@@ -190,7 +192,7 @@ class Signup extends React.Component {
       pw === re_pw &&
       re_pw === pwCheck
     ) {
-      fetch(serverUrl+"/user", signup_info)
+      fetch(serverUrl + "/user", signup_info)
         .then(alert("가입이 완료되었습니다."))
         .then(this.props.history.push("/"));
     } else {
@@ -200,29 +202,33 @@ class Signup extends React.Component {
 
   render() {
     return (
-      <div>
-        <h1>Signup</h1>
-        <br />
-        <div>
-          <Email
-            handleEmail={this.handleEmail}
-            checkEmail={this.checkEmail}
-            value={this.state.email}
-          />
-          <Nickname
-            handleNickname={this.handleNickname}
-            checkNickname={this.checkNickname}
-            value={this.state.nickname}
-          />
-          <Password
-            handlePW={this.handlePW}
-            handleRE_PW={this.handleRE_PW}
-            checkPW={this.checkPW}
-            value1={this.state.pw}
-            value2={this.state.re_pw}
-          />
-          <div>
-            <button onClick={this.handleSubmit}>가입하기</button>
+      <div id="m_Signup_Body">
+        <div className="m_Signup_Container">
+          <h1 id="m_Signup_Title">회원가입</h1>
+          <div id="m_Signup_Form">
+            <Email
+              className="m_Signup_Com"
+              handleEmail={this.handleEmail}
+              checkEmail={this.checkEmail}
+              value={this.state.email}
+            />
+            <Nickname
+              className="m_Signup_Com"
+              handleNickname={this.handleNickname}
+              checkNickname={this.checkNickname}
+              value={this.state.nickname}
+            />
+            <Password
+              className="m_Signup_Com"
+              handlePW={this.handlePW}
+              handleRE_PW={this.handleRE_PW}
+              checkPW={this.checkPW}
+              value1={this.state.pw}
+              value2={this.state.re_pw}
+            />
+            <p id="m_Signup_P">
+              <button onClick={this.handleSubmit}>가입하기</button>
+            </p>
           </div>
         </div>
       </div>

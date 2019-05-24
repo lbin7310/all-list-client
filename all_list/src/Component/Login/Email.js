@@ -1,4 +1,5 @@
 import React from "react";
+import './Email.css'
 
 class Email extends React.Component {
   constructor(props) {
@@ -7,8 +8,9 @@ class Email extends React.Component {
 
   render() {
     return (
-      <div>
-        <span>Email</span>
+      <div id="m_Signup_Email">
+        <span>이메일</span>
+        <br/>
         <input
           placeholder="이메일을 입력하세요"
           value={this.props.value}
