@@ -14,11 +14,11 @@ class Modal extends React.Component {
     return (
       <div className="MyModal">
         <div className="content">
-          <h3>니가 찾는 그 새끼가 이새끼가 맞니?</h3>
+          <h3>찾으시는 친구가 맞으신가요 ? </h3>
           {/* 검색한 친구 들어오는 자리 */}
           <div>
-            <span>{this.props.addUser.nickname}</span>
-            <span>{this.props.addUser.email}</span>
+            <span className="s_modal_nick">{this.props.addUser.nickname}</span>
+            <span className="s_modal_email">{this.props.addUser.email}</span>
           </div>
           {/* 친구 등록시, MemberList컴포넌트에 새로운 친구가 추가된다. */}
 

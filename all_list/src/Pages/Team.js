@@ -168,8 +168,8 @@ class Team extends React.Component {
 
     return (
       <div>
-        <header className="Team_header">
-          <Link to={`/board/${this.state.board_idx}`}>
+        <header className="s_Team_header">
+          <Link className="s_Team_header_a" to={`/board/${this.state.board_idx}`}>
             {this.props.location.state.board_title}
           </Link>
           <button
@@ -178,6 +178,7 @@ class Team extends React.Component {
               this.props.handleLogin();
               this.props.history.push("/");
             }}
+            className="s_btn_member"
           >
             로그아웃
           </button>
@@ -209,7 +210,7 @@ class Team extends React.Component {
           </ul>
         </section>
         <section className="Team_sidebar_right">
-          <h4>니 친구를 초대해!!!!</h4>
+          <h4>친구를 보드에 초청하세요</h4>
           <div>
             <input
               className="userNickname"
@@ -218,7 +219,7 @@ class Team extends React.Component {
               onChange={this.handleSearch}
             />
             {/* <button onClick={this.handleOpenModal}>친구찾기</button> */}
-            <button onClick={this.searchUser}>친구찾기</button>
+            <button className="s_btn_invite" onClick={this.searchUser}>친구찾기</button>
             {this.state.modal && (
               <ModalPortal>
                 {/* ModalPotal의 지시에 따라, APP내부가 아닌 APP외부의 DOM에 Modal을 띄워줌. --> index.html 확인 */}
