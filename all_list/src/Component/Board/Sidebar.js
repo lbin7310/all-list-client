@@ -1,45 +1,66 @@
-import React from 'react';
+import React, { Component } from 'react';
+import './Sidebar.css';
 
-export default class Sidebar extends React.Component {
+class Sidebar extends Component {
   constructor () {
     super()
     this.state = {
     }
   }
 
-  render () {
+  render() {
+    const { data, onClickBoard, userId } = this.props;
+    let privateBoards = {};
+    let teamBoards = {};
+
+    let privateBoard = [];
+    let teamBoard = [];
+    if (data !== undefined) {
+      for (let i = 0; i < data.length; i++) {
+        let isPrivate = data[i].is_private;
+        let boardIdx = data[i].origin_board_idx;
+        if (isPrivate === 0) {
+          privateBoards[boardIdx] = data[i].board_title;
+        } else if (isPrivate === 1) {
+          teamBoards[boardIdx] = data[i].board_title;
+        }
+      }
+    }
+
+    for (let key in privateBoards) {
+      privateBoard.push({ boardIdx: key, boardName: privateBoards[key] })
+    }
+
+    for (let key in teamBoards) {
+      teamBoard.push({ boardIdx: key, boardName: teamBoards[key] })
+    }
     return (
-      <div>
+      <div className="k_side-bar">
         <section className="top_location_private">
           <div className="private_board">
-            <div>Private Board</div>
-            <ul> {/* 여기는 개인의 보드를 담는 로직을 만들어야한다. li는 반복한다. */}
-              <li> {/* onClick event를 넣는다. 그럼 해당 보더로 이동한다. */}
-                호랑이는 가죽을 남기고,
-                개발자는 TIL를 남긴다.
-              </li>
-              <li>
-                인생동안 할 거.
-              </li>
-              <li>
-                올해 가장 하고 싶은 것.
-              </li>
+            <div className="k_board_name">Private Board</div>
+            <ul>
+              {privateBoard.map((d) => {
+                return <li className="sidebar_board_title"
+                  key={d.boardIdx}
+                  onClick={ () => onClickBoard(d.boardIdx, data)}
+                >{d.boardName}</li>
+              })}
             </ul>
           </div>
         </section>
         <section className="top_location_team">
           <div className="team_board">
-            <div>Team Board</div>
-            <ul> {/* 팀의 보드를 담는 로직을 만들어야한다. li는 반복한다. */}
-              <li>  {/* onClick event를 넣는다. 그럼 해당 보더로 이동한다. */}
-                축구동아리
-              </li>
-              <li>
-                농구동아리
-              </li>
-              <li>
-                야구동아리
-              </li>
+            <div className="k_board_name">Team Board</div>
+            <ul>
+              {teamBoard.map((d) => {
+                return <li className="sidebar_board_title"
+                  key={d.boardIdx}
+                  onClick={ () => onClickBoard(d.boardIdx, data)}
+                >{d.boardName}</li>
+              })}
+            </ul>
+            <ul>
             </ul>
           </div>
         </section>
@@ -47,3 +68,5 @@ export default class Sidebar extends React.Component {
     )
   }
 }
+
+export default Sidebar;

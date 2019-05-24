@@ -3,8 +3,19 @@
 }
 
 .card {
-  border: 1px solid black;
+  display: flex;
+  justify-content: space-between;
   border-radius: 5px;
   margin-bottom: 10px;
-  cursor: pointer;
+  padding: 5px;
+  background-color: #63C3D7;
+  color: whitesmoke;
+}
+
+.k_c_pencil {
+  margin-right: 5px;
+}
+
+.k_c_pencil, .fa-eraser {
+  color: #044759;
 }

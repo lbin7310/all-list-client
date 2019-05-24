@@ -1,0 +1,58 @@
+.top_name_and_team_plus {
+  display: flex;
+  text-align: center;
+  position: absolute;
+  right: 40%;
+  top: 25%;
+}
+
+.board_Name {
+  font-size: 25px;
+}
+
+.board_Description {
+  font-size: 15px;
+  z-index: 0;
+}
+
+.k_topName_botttom {
+  display: flex;
+  position: absolute;
+  left: 35%;
+  top: 25%;
+  text-align: center;
+}
+
+.k_modify_team_logout {
+  display: flex;
+  position: relative;
+  top: 45px;
+  left: 350px;
+}
+
+.k_modify {
+  display: flex;
+  flex-direction: column;
+  margin-right: 10px;
+}
+
+.k_top_logout {
+  display: flex;
+  flex-direction: column;
+  margin-right: 10px;
+}
+
+.k_goto_team_manage {
+  margin-right: 10px;
+}
+
+.k_button {
+  border: 0;
+  border-radius: 10px;
+  font-size: 15px;
+}
+
+.k_pen_fancy, .k_sign_out {
+  margin-bottom: 3px;
+}
+

@@ -1,0 +1,92 @@
+.s_Team_header{
+    background: #0b6fa8;
+    height: 60px;
+    display: flex;
+    align-items: center;
+}
+.s_Team_header_a{
+    margin-left: 2%;
+    font-size: 24px;
+    margin-right: 10px;
+    color: #e7e2e2;
+}
+.s_btn_member {
+    margin-top: 6px;
+    margin-left: 2%;
+    margin-right: 2%;
+    background-position: center;
+    transition: background 0.3s;
+    border: none;
+    border-radius: 2px;
+    font-size: 14px;
+    text-transform: uppercase;
+    cursor: pointer;
+    color: white;
+    background-color: #2196f3;
+    box-shadow: 0 0 4px #999;
+    outline: none;
+    height: 20px;
+  }
+  .s_btn_member:hover {
+    background: #7ed4dd radial-gradient(circle, transparent 1%, #47a7f5 1%) center/15000%;
+  }
+  .s_btn_member:active {
+    background-color: #375d7c;
+    background-size: 100%;
+    transition: background 0s;
+  }
+
+  .s_btn_invite {
+    margin-top: 6px;
+    margin-left: 2%;
+    margin-right: 2%;
+    background-position: center;
+    transition: background 0.3s;
+    border: none;
+    border-radius: 2px;
+    font-size: 14px;
+    text-transform: uppercase;
+    cursor: pointer;
+    color: white;
+    background-color: #2196f3;
+    box-shadow: 0 0 4px #999;
+    outline: none;
+    height: 20px;
+  }
+  .s_btn_invite:hover {
+    background: #7ed4dd radial-gradient(circle, transparent 1%, #47a7f5 1%) center/15000%;
+  }
+  .s_btn_invite:active {
+    background-color: #375d7c;
+    background-size: 100%;
+    transition: background 0s;
+  }
+
+  .s_btn_member_delete {
+    margin-top: 6px;
+    margin-left: 2%;
+    margin-right: 2%;
+    background-position: center;
+    transition: background 0.3s;
+    border: none;
+    border-radius: 2px;
+    font-size: 14px;
+    text-transform: uppercase;
+    cursor: pointer;
+    color: white;
+    background-color: #dd1616;
+    box-shadow: 0 0 4px #999;
+    outline: none;
+    height: 20px;
+  }
+  .s_btn_member_delete:hover {
+    background: #eaec43 radial-gradient(circle, transparent 1%, #47a7f5 1%) center/15000%;
+  }
+  .s_btn_member_delete:active {
+    background-color: #ebdd67;
+    background-size: 100%;
+    transition: background 0s;
+  }
+.s_span_nick{
+    margin-right: 2%;
+}
