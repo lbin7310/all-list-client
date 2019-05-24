@@ -35,10 +35,10 @@ class Sidebar extends Component {
       teamBoard.push({ boardIdx: key, boardName: teamBoards[key] })
     }
     return (
-      <div>
+      <div className="k_side-bar">
         <section className="top_location_private">
           <div className="private_board">
-            <div>Private Board</div>
+            <div className="k_board_name">Private Board</div>
             <ul>
               {privateBoard.map((d) => {
                 return <li className="sidebar_board_title"
@@ -51,7 +51,7 @@ class Sidebar extends Component {
         </section>
         <section className="top_location_team">
           <div className="team_board">
-            <div>Team Board</div>
+            <div className="k_board_name">Team Board</div>
             <ul>
               {teamBoard.map((d) => {
                 return <li className="sidebar_board_title"

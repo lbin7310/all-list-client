@@ -72,36 +72,44 @@ class Top extends Component {
       );
     }
     return (
-      <nav>
+      <nav className="k_top">
         <div className="top_name_and_team_plus">
           <div>
-            <div className="board_Name">{boardName}</div>
+            <h1 className="board_Name">{boardName}</h1>
             <div className="board_Description">{boardDesc}</div>
-            <button onClick={this.handleToggleEdit}>수정</button>
           </div>
-          <Link
-            to={{
-              pathname: `/user_board/${boardIdx}`,
-              state: {
-                board_title: boardName
-              }
-            }}
-          >
-            <button style={{ display: isPrivate ? "block" : "none" }}>
-              팀원관리
-            </button>
-          </Link>
+          <div className="k_modify_team_logout">
+            <div className="k_modify">
+              <span className="fas fa-pen-fancy fa-2x k_pen_fancy"></span>
+              <button className="k_button" onClick={this.handleToggleEdit}>수정</button>
+            </div>
+            <div className="k_goto_team_manage">
+              <span className="fas fa-users fa-2x"></span>
+              <Link
+                to={{
+                  pathname: `/user_board/${boardIdx}`,
+                  state: {
+                    board_title: boardName
+                  }
+                }}
+              >
+                <button className="k_button" style={{ display: isPrivate ? "block" : "none" }}>
+                  팀원관리
+                </button>
+              </Link>
+            </div>
+            <div className="k_top_logout">
+              <div className="fas fa-sign-out-alt fa-2x k_sign_out"></div>
+              <button className="k_button"
+                onClick={() => {
+                  window.localStorage.removeItem("userInfo");
+                  this.props.handleLogin();
+                  this.props.history.push("/");
+                }}
+              >Log Out</button>
+            </div>
+          </div>
         </div>
-        <div>2019</div>
-        <button
-          onClick={() => {
-            window.localStorage.removeItem("userInfo");
-            this.props.handleLogin();
-            this.props.history.push("/");
-          }}
-        >
-          로그아웃
-        </button>
       </nav>
     );
   }

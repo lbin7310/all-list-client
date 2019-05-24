@@ -62,12 +62,12 @@ class Card extends Component {
         <div className="card" key={data.origin_card_idx}>
           <div className="card_description">{data.card_desc}</div>
           <div>
-            <button
+            <div className="fas fa-pencil-alt k_c_pencil"
             // 할 일 내용 수정.
-              onClick={this.handleToggleEdit}>수정</button>
-            <button
+              onClick={this.handleToggleEdit}></div>
+            <div className="fas fa-eraser"
             // 할 일 내용 제거.
-              onClick={ () => onRemoveCard(data.origin_card_idx)}>삭제</button>
+              onClick={ () => onRemoveCard(data.origin_card_idx)}></div>
           </div>
         </div>
       )
