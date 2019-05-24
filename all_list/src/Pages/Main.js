@@ -178,31 +178,31 @@ export default class Main extends React.Component {
     }
 
       return (
-        <div>
+        <div className="s_mainSection">
           {/* Top Navigation Bar */}
-          <nav id="app_title">
-            <div>
-              <h1>모두의리스트</h1>
-              <h3>{this.state.nickname}</h3>
+          <nav id="app_title" className="s_appTitle">
+            <div className="s_nav">
+              <h1>모두의 리스트</h1>
+              <h3 className="s_hiMessage">{this.state.nickname}님 안녕하세요</h3>
             </div>
-            <button
+            <button 
               onClick={() => {
                 window.localStorage.removeItem("userInfo");
                 this.props.handleLogin();
                 this.props.history.push("/");
-              }}
+              }} className="s_btnLogout"
             >
-              로그아웃
+              sign out
             </button>
           </nav>
 
-          <div className="main_center">
-            <div className="main_username">보드 정보</div>
+          <div className="main_center" id="s_main_center">
+            <div className="main_username"></div>
             {/* Private Board Section */}
             <section className="main_private">
               <div className="main_private_board">
-                <div>Private Board</div>
-                <ul>
+                <h2 className="s_private">Personal</h2>                
+                <ul className="s_ul_private">
                   {this.state.privateB.map(board => {
                     return (
                       <PrivateBoard
@@ -215,18 +215,18 @@ export default class Main extends React.Component {
                     );
                   })}
                 </ul>
-                <div>
+                <div className="s_private_add">
                   <input
                     className="P_TitleInput"
                     onChange={e => this.handleInput(e, 0)}
                     type="text"
-                    placeholder="새로운 보드명을 추가해주세요"
+                    placeholder=" + create board"
                   />
                   <textarea
                     className="P_DescInput"
                     onChange={e => this.handleDesc(e, 0)}
                     type="text"
-                    placeholder="보드를 소개하세요"
+                    placeholder="+ desc"
                   />
                   <button
                     onClick={() => {
@@ -240,8 +240,8 @@ export default class Main extends React.Component {
                         this.addBoard(0);
                       }
                     }}
-                  >
-                    추가하기
+                    className="s_btnLogout_private">
+                    추가
                   </button>
                 </div>
               </div>
@@ -249,8 +249,8 @@ export default class Main extends React.Component {
             {/* Team Board Section */}
             <section className="main_team">
               <div className="main_team_board">
-                <div>Team Board</div>
-                <ul>
+              <h2 className="s_team">Team</h2> 
+                <ul className="s_ul_team">
                   {this.state.teamB.map(board => {
                     return (
                       <TeamBoard
@@ -263,18 +263,18 @@ export default class Main extends React.Component {
                     );
                   })}
                 </ul>
-                <div>
+                <div className="s_team_add">
                   <input
                     className="T_TitleInput"
                     type="text"
-                    placeholder="새로운 팀 보드명을 추가해주세요"
+                    placeholder="+ create board"
                     onChange={e => this.handleInput(e, 1)}
                   />
                   <textarea
                     className="T_DescInput"
                     onChange={e => this.handleDesc(e, 1)}
                     type="text"
-                    placeholder="보드를 소개하세요"
+                    placeholder="+ desc"
                   />
                   <button
                     onClick={() => {
@@ -288,8 +288,8 @@ export default class Main extends React.Component {
                         this.addBoard(1);
                       }
                     }}
-                  >
-                    추가하기
+                    className="s_btn_team">
+                    추가
                   </button>
                 </div>
               </div>
