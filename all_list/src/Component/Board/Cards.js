@@ -35,13 +35,13 @@ class Cards extends Component {
   render() {
     let collectCard = [];
     
-    const { cardValue } = this.state; // state cardValue
+    const { cardValue } = this.state; 
     const { data,
             boardIdx,
             listIdx,
             onRemoveCard,
             onEditCard
-          } = this.props; // props
+          } = this.props; 
     
     for (let i = 0; i < data.length; i++) {
       if (data[i].board_idx === boardIdx &&

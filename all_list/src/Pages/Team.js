@@ -11,15 +11,10 @@ import Modal from "../Component/Team/Modal";
 import ModalPortal from "../Component/Team/ModalPortal";
 import serverUrl from "../Pages/serverURL";
 
-//board네임 - Props로 받는다.
-//닉네임 - 로컬스토리지서 받는다.
-
 class Team extends React.Component {
   constructor(props) {
     super(props);
-    // Props로 origin_board_idx를 받아야한다. --> Board 컴포넌트에서 받아야 한다
-    //memberList의 형태는 [{nickname: , email: ,origin_user_idx: }, {nickname: , email: ,origin_user_dix: }]
-    //addUser의 형태는 {nickname: , email: , origin_user_idx: }
+
     this.state = {
       modal: false,
       memberList: [],
@@ -50,7 +45,6 @@ class Team extends React.Component {
           board_idx: boardIdx
         });
       });
-    console.log(this.state.board_idx);
   };
 
   handleOpenModal = () => {
@@ -72,10 +66,7 @@ class Team extends React.Component {
       origin_user_idx: idx,
       origin_board_idx: this.state.board_idx
     };
-    console.log(addMember);
 
-    // 새로 등록할 친구를 db에 저장 했다가, 새로 업데이트된 멤버리스트를 다시 받아와야함
-    // memberList의 형태는 [{nickname: , email: ,origin_user_idx: }, {nickname: , email: ,origin_user_idx: }]
     const newMember = {
       method: "POST",
       body: JSON.stringify(addMember),
@@ -98,7 +89,6 @@ class Team extends React.Component {
   // 서버에 boardIdx와 userIdx를 날린다.
   handleDelete = (e, v) => {
     e.preventDefault();
-    console.log(v);
 
     const deleteUser = {
       origin_board_idx: this.state.board_idx,
@@ -157,7 +147,6 @@ class Team extends React.Component {
   };
 
   componentDidMount = () => {
-    // const boardIdx = { boardIdx: this.props.match.params.boardIdx }
     this.reRender();
   };
 

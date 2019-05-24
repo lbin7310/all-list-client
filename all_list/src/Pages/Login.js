@@ -48,8 +48,6 @@ class Login extends React.Component {
         return res.json();
       })
       .then(json => {
-        console.log(json);
-        //json형식 {idx: 8, nickname: "noh", email: "noh@gmail.com", success: true}
         if (json.success === true) {
           alert("로그인되었습니다");
           // 서버로 부터 받은 JSON형태의 데이터를 로컬스토리지에 우선 저장한다.
@@ -64,7 +62,6 @@ class Login extends React.Component {
   };
 
   render() {
-    console.log(this.props);
     if (this.props.isLogin === true) {
       return <Redirect to="/main" />;
     }

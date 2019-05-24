@@ -7,8 +7,6 @@ import { fakeData } from "../fakeData";
 import { Redirect } from "react-router-dom";
 import serverUrl from "../Pages/serverURL"
 
-// process env node_env
-
 class Board extends React.Component {
   constructor() {
     super();
@@ -343,10 +341,6 @@ class Board extends React.Component {
       userId,
       allData
     } = this.state;
-    console.log(
-      JSON.parse(window.localStorage.getItem("userInfo")).data[0]
-        .origin_user_idx
-    );
 
     return (
       <div>

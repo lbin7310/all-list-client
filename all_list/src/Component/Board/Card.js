@@ -18,7 +18,7 @@ class Card extends Component {
     this.setState({
       cardEditValue: e.target.value
     }) 
-    console.log(this.state.cardEditValue);
+
   }
 
   componentDidUpdate(prevProps, prevState) {

@@ -13,7 +13,6 @@ class Top extends Component {
   }
 
   handleToggleEdit = () => {
-    console.log("aaaa");
     const { editing } = this.state;
     this.setState({ editing: !editing });
   };

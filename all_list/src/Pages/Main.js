@@ -47,7 +47,6 @@ export default class Main extends React.Component {
     fetch(serverUrl+"/lender", userInfo)
       .then(res => res.json())
       .then(allBoard => {
-        console.log(allBoard, "111111111111111111111111111111111111");
         //개인보드, 팀보드 배열로 나누기
         if (allBoard !== null) {
           const privateB = allBoard.filter(board => board.is_private === 0);
@@ -172,7 +171,6 @@ export default class Main extends React.Component {
   };
 
   render() {
-    console.log(this.props, '1111111111312312312312312312312')
     if (this.props.isLogin === false) {
       return <Redirect to="/" />
     }

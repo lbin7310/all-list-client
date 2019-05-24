@@ -2,15 +2,12 @@ import React from "react";
 import "./Modal.css";
 import MemberList from "./MemberList";
 
-// Props = { handleCloseModal, addMemberList, addUser }
-//addUser의 형태는 {nickname: , email: , origin_user_idx: }
 class Modal extends React.Component {
   constructor(props) {
     super(props);
   }
   render() {
     const userIdx = this.props.addUser.origin_user_idx;
-    console.log(this.props.memberList, userIdx);
     return (
       <div className="MyModal">
         <div className="content">

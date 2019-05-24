@@ -17,7 +17,6 @@ class List extends Component {
   
   // list의 이름을 변경하는 함수
   handleToggleEdit = (v) => {
-    console.log('aaaaaaaa');
     const { editing } = this.state;
     this.setState({ editing: !editing });
   }
