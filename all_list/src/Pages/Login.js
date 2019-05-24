@@ -1,8 +1,13 @@
 import React from "react";
 import Signup from "../Component/Login/Signup";
-import { BrowserRouter as Router, Route, Link, Redirect } from "react-router-dom";
-import './Login.css'
-import serverUrl from "../Pages/serverURL"
+import {
+  BrowserRouter as Router,
+  Route,
+  Link,
+  Redirect
+} from "react-router-dom";
+import "./Login.css";
+import serverUrl from "../Pages/serverURL";
 
 class Login extends React.Component {
   constructor(props) {
@@ -38,7 +43,7 @@ class Login extends React.Component {
       }
     };
 
-    fetch( serverUrl+"/login", login_info)
+    fetch(serverUrl + "/login", login_info)
       .then(res => {
         return res.json();
       })
@@ -49,58 +54,59 @@ class Login extends React.Component {
           alert("로그인되었습니다");
           // 서버로 부터 받은 JSON형태의 데이터를 로컬스토리지에 우선 저장한다.
           window.localStorage.setItem("userInfo", JSON.stringify(json));
-          this.props.handleLogin()
+          this.props.handleLogin();
           // Main페이지로 이동한다.
           // this.props.history.push("/main");
         } else {
           alert("아이디 혹은 비밀번호를 확인하세요");
         }
-      })
-      
+      });
   };
 
   render() {
-    console.log(this.props) 
-    if(this.props.isLogin === true){
-      return <Redirect to= "/main" />
-    } 
-   
-    return (
-      <div id="login_body">
-        <header>모두의 리스트</header>
-        <section>
-          <form onSubmit={this.handleSubmit}>
+    console.log(this.props);
+    if (this.props.isLogin === true) {
+      return <Redirect to="/main" />;
+    }
 
-            {/* 이메일 인풋창 */}
-            <div>
-              <span>이메일</span>
-              <input
-                placeholder="이메일을 입력하세요"
-                value={this.state.email}
-                onChange={this.handleEmail}
-              />
-            </div>
-            {/* 비밀번호 인풋 */}
-            <div>
-              <span>비밀번호</span>
-              <input
-                placeholder="비밀번호를 입력하세요"
-                value={this.state.password}
-                onChange={this.handlePW}
-                type="password"
-              />
-            </div>
-            <div>
-              {/* 로그인버튼 , 회원가입버튼*/}
-              <button onClick={this.handleSubmit}>로그인</button>
-              {/* 회원가입 버튼 클릭 -> /signup페이지로 이동 */}
-            
-              <button onClick={() => this.props.history.push("/signup")}>
-                회원가입
-              </button>
-            </div>
-          </form>
-        </section>
+    return (
+      <div id="m_login_body">
+        <div className="m_container">
+            <h1 id= "m_Login_Title">모두의 리스트</h1>
+          <div className="m_login">
+            <form id="m_Login_Form" onSubmit={this.handleSubmit}>
+              {/* 이메일 인풋창 */}
+              <p class="m_inputDiv">
+              <div>
+                <input
+                  placeholder="Press your email"
+                  value={this.state.email}
+                  onChange={this.handleEmail}
+                />
+              </div>
+              </p>
+              {/* 비밀번호 인풋 */}
+              <div>
+                <input
+                  placeholder="Password"
+                  value={this.state.password}
+                  onChange={this.handlePW}
+                  type="password"
+                />
+              </div>
+              <p>
+              <div className = "m_btnDiv">
+                {/* 로그인버튼 , 회원가입버튼*/}
+                <button className="m_login_btn" onClick={this.handleSubmit}>로그인</button>
+                {/* 회원가입 버튼 클릭 -> /signup페이지로 이동 */}
+                <button  className="m_login_btn" onClick={() => this.props.history.push("/signup")}>
+                  회원가입
+                </button>
+              </div>
+              </p>
+            </form>
+          </div>
+        </div>
       </div>
     );
   }

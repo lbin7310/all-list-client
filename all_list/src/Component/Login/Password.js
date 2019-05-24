@@ -1,4 +1,5 @@
 import React from "react";
+import './Password.css'
 
 class Password extends React.Component {
   constructor(props) {
@@ -7,9 +8,10 @@ class Password extends React.Component {
 
   render() {
     return (
-      <div>
-        <div>
+      <div id="m_Signup_Password">
+        <div id="m_Signup_PW">
           <span>비밀번호</span>
+          <br />
           <input
             placeholder="비밀번호 입력"
             value={this.props.value1}
@@ -17,8 +19,9 @@ class Password extends React.Component {
             type="password"
           />
         </div>
-        <div>
+        <div id="m_Signup_PW_RE">
           <span>비밀번호 재확인</span>
+          <br />
           <input
             placeholder="비밀번호 재입력"
             value={this.props.value2}
