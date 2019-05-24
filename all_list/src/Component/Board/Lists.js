@@ -65,7 +65,7 @@ class Lists extends Component {
         <div className="list_plus list_plus_title">
           <form onSubmit={ (e) => this.handleSubmit(e)}>
             <input type='text'
-              placeholder='추가하기'
+              placeholder='리스트 추가하기'
               value={listValue}
               onChange={this.handleInputChange}
               name='listValue'
@@ -89,27 +89,6 @@ class Lists extends Component {
               onEditList={onEditList}
               listValue={listValue}
             />
-            // return (
-            //   <div className="list" key={d.listIdx}>
-            //     <div className="list_title">
-            //       <div className="list_name">
-            //         <div>{d.listName}</div>
-            //         <div className="list_buttons">
-            //           <button onClick={this.handleToggleEdit}>수정</button>
-            //           <button onClick={ () => onRemoveList(d.listIdx, d.listName)}>삭제</button>
-            //         </div>
-            //       </div>
-            //       <Cards listIdx={d.listIdx}
-            //         onCardCreate={onCardCreate}
-            //         boardIdx={boardIdx}
-            //         data={data}
-            //         onCardSubmit={this.handleCardValueSubmit}
-            //         onRemoveCard={onRemoveCard}
-            //         onEditCard={onEditCard}
-            //       />
-            //     </div>
-            //   </div>
-            // )
           })}
         </div>
       </div>

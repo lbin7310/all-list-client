@@ -358,24 +358,26 @@ class Board extends React.Component {
           onEditBoard={this.handleEditBoard}
           handleLogin={this.props.handleLogin}
         />
-        <div className="side_bar">
-          <Sidebar
-            data={allData}
-            onClickBoard={this.handleClickChange}
-            userId={userId}
-          />
+        <div className="k_back">
+          <div className="side_bar">
+            <Lists
+              data={data}
+              boardIdx={boardIdx}
+              inputValue={inputValue}
+              onCreate={this.handleAddList} // list를 추가는 함수
+              onRemoveList={this.handleRemoveList} // list 제거
+              onCardCreate={this.handleAddCard} // card를 추가하는 함수
+              onRemoveCard={this.handleRemoveCard} // card 제거하는 버튼
+              onEditCard={this.handleEditCard} // card 수정하는 버튼
+              onEditList={this.handleEditList} // list 수정하는 함수
+            />
+            <Sidebar
+              data={allData}
+              onClickBoard={this.handleClickChange}
+              userId={userId}
+            />
+          </div>
         </div>
-        <Lists
-          data={data}
-          boardIdx={boardIdx}
-          inputValue={inputValue}
-          onCreate={this.handleAddList} // list를 추가는 함수
-          onRemoveList={this.handleRemoveList} // list 제거
-          onCardCreate={this.handleAddCard} // card를 추가하는 함수
-          onRemoveCard={this.handleRemoveCard} // card 제거하는 버튼
-          onEditCard={this.handleEditCard} // card 수정하는 버튼
-          onEditList={this.handleEditList} // list 수정하는 함수
-        />
       </div>
     );
   }

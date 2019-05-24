@@ -69,10 +69,10 @@ class List extends Component {
       <div className="list" key={cardData.listIdx}>
         <div className="list_title">
           <div className="list_name">
-            <div>{cardData.listName}</div>
+            <div className="k_list_name">{cardData.listName}</div>
             <div className="list_buttons">
-              <button onClick={this.handleToggleEdit}>수정</button>
-              <button onClick={ () => onRemoveList(cardData.listIdx, cardData.listName)}>삭제</button>
+              <div className="k_list_modify fas fa-pencil-alt" onClick={this.handleToggleEdit}></div>
+              <div className="fas fa-trash-alt" onClick={ () => onRemoveList(cardData.listIdx, cardData.listName)}></div>
             </div>
           </div>
           <Cards listIdx={cardData.listIdx}

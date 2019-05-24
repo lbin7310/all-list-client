@@ -1,3 +1,25 @@
 .sidebar_board_title {
   cursor: pointer;
 }
+
+.k_side-bar {
+  background-color: white;
+  z-index: 7;
+  position: fixed;
+  height: 100%;
+  border-left: solid 1px black;
+  right: 0;
+  top: 175px;
+  width: 15%;
+  padding: 15px 0 0 20px;
+}
+
+.k_board_name {
+  background-color: #0EA549;
+  height: 30px;
+  padding-top: 10px;
+  padding-left: 10px;
+  border-radius: 5px;
+  font-size: 20px;
+  color: white;
+}
