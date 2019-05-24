@@ -35,7 +35,6 @@ class App extends React.Component {
   }
 
   render() {
-    console.log(process.env.NODE_ENV);
     if(!this.state.init) {
       return <div>로딩중...</div>
     }
@@ -53,7 +52,6 @@ class App extends React.Component {
         />
         <Route
           path="/board/:id"
-          // component={Board}
           render={props => (
             <Board
               {...props}
@@ -64,7 +62,7 @@ class App extends React.Component {
         />
         <Route
           path="/user_board/:id"
-          // component={Team}
+          
           render={props => (
             <Team
               {...props}
@@ -77,7 +75,6 @@ class App extends React.Component {
         <Route
           path="/"
           exact
-          // component={Login}
           render={props => (
             <Login
               {...props}
@@ -88,7 +85,6 @@ class App extends React.Component {
         />
         <Route
           path="/signup"
-          // component={Signup}
           render={props => (
             <Signup
               {...props}
@@ -100,22 +96,6 @@ class App extends React.Component {
       </Router>
     );
   }
-
-  // return (
-  //   <Router>
-
-  //       <Access isLogin = {this.state.isLogin} handleLogin = {this.handleLogin}>
-  //       <Route path="/" exact component={Login} isLoin={this.state.isLogin} />
-  //       <Route path="/signup" component={Signup} />
-
-  //       <NotAccess isLogin ={ this.state.isLoginw}>
-  //       <Route path="/main" component={Main} />
-  //       <Route path="/board/:id" component={Board} />
-  //       <Route path="/user_board/:id" component={Team} />
-  //       </NotAccess>
-  //     </Switch>
-  //   </Router>
-  // );
 }
 
 export default App;
