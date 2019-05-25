@@ -8,8 +8,8 @@
   border-radius: 5px;
   margin-bottom: 10px;
   padding: 5px;
-  background-color: #63C3D7;
-  color: whitesmoke;
+  background-color: #eb8f90;
+  color: #0A142A;
 }
 
 .k_c_pencil {
@@ -18,4 +18,19 @@
 
 .k_c_pencil, .fa-eraser {
   color: #044759;
+}
+
+.k_card_input {
+  border: none;
+  height: 30px;
+  border-radius: 5px;
+  background-color: #eb8f90;
+  padding-left: 5px;
+  color: white;
+  font-size: 15px;
+}
+
+.k_card_input::placeholder{
+  color: white;
+  font-size: 15px;
 }

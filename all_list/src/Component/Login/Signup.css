@@ -28,7 +28,7 @@
 
 .m_Signup_Container {
     margin-top: 20px;
-    margin: 100px auto;
+    margin: 190px auto;
     width: 300px;
     text-align: center; 
 }
@@ -37,7 +37,7 @@
 
 #m_Signup_Form {
     position: relative;
-    margin: 0 auto;
+    margin: 0 -50px;
     padding: 20px 20px 20px;
     width: 370px;
     text-align: left;

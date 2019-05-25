@@ -1,25 +1,35 @@
 .sidebar_board_title {
   cursor: pointer;
+  padding: 10px;
+  border-bottom: 1px solid #12406A;
 }
 
 .k_side-bar {
-  background-color: white;
+  background-color: #12406A;
   z-index: 7;
   position: fixed;
   height: 100%;
-  border-left: solid 1px black;
+  border-radius: 5px;
+  top: 160px;
   right: 0;
-  top: 175px;
   width: 15%;
   padding: 15px 0 0 20px;
+  box-shadow: -6px 2px 6px rgb(0,0,0, 0.3)
 }
 
 .k_board_name {
-  background-color: #0EA549;
+  background-color: #ffb471;
   height: 30px;
   padding-top: 10px;
   padding-left: 10px;
   border-radius: 5px;
   font-size: 20px;
+  font-weight: bold;
   color: white;
+}
+
+.k_side_team_selector {
+  background-color: #adbed2;
+  border-radius: 5px;
+  list-style: none  ;
 }

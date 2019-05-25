@@ -64,8 +64,10 @@ class Lists extends Component {
       <div className="board_lists">
         <div className="list_plus list_plus_title">
           <form onSubmit={ (e) => this.handleSubmit(e)}>
-            <input type='text'
-              placeholder='리스트 추가하기'
+            <input  
+              className="k_input k_make_list_input"
+              type='text'
+              placeholder='리스트 생성'
               value={listValue}
               onChange={this.handleInputChange}
               name='listValue'

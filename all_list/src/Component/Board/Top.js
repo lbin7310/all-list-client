@@ -49,41 +49,40 @@ class Top extends Component {
     const { boardEditDesc, boardEditName } = this.state;
     if (editing) {
       return (
-        <div>
-          <div>
-            <input
+        <div className="k_top">
+          <div className="top_name_and_team_plus">
+            <input className="k_input"
               value={boardEditName}
               name="boardEditName"
               placeholder="보더 이름을 바꾸시오."
               onChange={this.handleChange}
             />
-          </div>
-          <div>
-            <input
+            <input className="k_input"
               value={boardEditDesc}
               name="boardEditDesc"
               placeholder="보더 설명을 바꾸시오."
               onChange={this.handleChange}
             />
+            <div className="k_top_check">
+              <div className="fas fa-check"></div>
+              <button className="k_button" onClick={this.handleToggleEdit}>적용</button>
+            </div>
           </div>
-          <button onClick={this.handleToggleEdit}>적용</button>
+          <div>
+          </div>
         </div>
       );
     }
     return (
       <nav className="k_top">
         <div className="top_name_and_team_plus">
-          <div>
-            <h1 className="board_Name">{boardName}</h1>
+          <div className="k_top_name_description">
+            <div className="board_Name">{boardName}</div>
             <div className="board_Description">{boardDesc}</div>
           </div>
           <div className="k_modify_team_logout">
-            <div className="k_modify">
-              <span className="fas fa-pen-fancy fa-2x k_pen_fancy"></span>
-              <button className="k_button" onClick={this.handleToggleEdit}>수정</button>
-            </div>
             <div className="k_goto_team_manage">
-              <span className="fas fa-users fa-2x"></span>
+              <span className="fas fa-users" style={{ display: isPrivate ? "block" : "none" }}></span>
               <Link
                 to={{
                   pathname: `/user_board/${boardIdx}`,
@@ -93,12 +92,16 @@ class Top extends Component {
                 }}
               >
                 <button className="k_button" style={{ display: isPrivate ? "block" : "none" }}>
-                  팀원관리
+                  Team
                 </button>
               </Link>
             </div>
+            <div className="k_modify">
+              <span className="fas fa-pen-fancy k_pen_fancy"></span>
+              <button className="k_button" onClick={this.handleToggleEdit}>Modify</button>
+            </div>
             <div className="k_top_logout">
-              <div className="fas fa-sign-out-alt fa-2x k_sign_out"></div>
+              <div className="fas fa-sign-out-alt k_sign_out"></div>
               <button className="k_button"
                 onClick={() => {
                   window.localStorage.removeItem("userInfo");

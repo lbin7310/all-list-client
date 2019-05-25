@@ -39,7 +39,7 @@ class Sidebar extends Component {
         <section className="top_location_private">
           <div className="private_board">
             <div className="k_board_name">Private Board</div>
-            <ul>
+            <ul className="k_side_team_selector">
               {privateBoard.map((d) => {
                 return <li className="sidebar_board_title"
                   key={d.boardIdx}
@@ -52,7 +52,7 @@ class Sidebar extends Component {
         <section className="top_location_team">
           <div className="team_board">
             <div className="k_board_name">Team Board</div>
-            <ul>
+            <ul className="k_side_team_selector">
               {teamBoard.map((d) => {
                 return <li className="sidebar_board_title"
                   key={d.boardIdx}

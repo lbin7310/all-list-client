@@ -61,7 +61,9 @@ class Cards extends Component {
                       />
         })}
         <form onSubmit={ (e) => this.handleCardValueSubmit(e, listIdx)}>
-          <input type="text"
+          <input 
+            className="k_input k_card_input"
+            type="text"
             placeholder="할 일"
             value={cardValue}
             name="cardValue"
