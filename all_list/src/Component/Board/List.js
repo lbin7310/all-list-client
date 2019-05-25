@@ -53,7 +53,7 @@ class List extends Component {
       return (
         <div>
           <div>
-            <input
+            <input className="k_input k_list_input"
               value={listNameEdit}
               placeholder="리스트 수정"
               onChange={this.handleInputListChange}

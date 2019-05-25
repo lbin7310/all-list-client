@@ -45,9 +45,9 @@ class Card extends Component {
       return (
         <div>
           <div>
-            <input
+            <input className="k_input k_card_input"
               value={this.state.cardEditValue}
-              placeholder="할 일"
+              placeholder="할 일 수정"
               onChange={this.handleCardInputChange}
             />
           </div>

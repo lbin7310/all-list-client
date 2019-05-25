@@ -13,7 +13,7 @@
 }
 
 .m_container {
-    margin: 100px auto;
+    margin: 250px auto;
     width: 350px; 
 }
 
@@ -53,6 +53,7 @@
     #m_Login_Title {
     margin: -20px -20px 21px;
     line-height: 40px;
+    width: 400px;
     font-size: 50px;
     font-weight: bold;
     color: rgb(219, 224, 250);

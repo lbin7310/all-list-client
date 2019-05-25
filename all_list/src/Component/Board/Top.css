@@ -1,13 +1,14 @@
 .top_name_and_team_plus {
-  display: flex;
+  flex-direction: column;
   text-align: center;
-  position: absolute;
-  right: 40%;
-  top: 25%;
+  justify-content: center;
+  align-items: center;
+  display: flex;
 }
 
 .board_Name {
   font-size: 25px;
+  font-weight: bold;
 }
 
 .board_Description {
@@ -25,9 +26,6 @@
 
 .k_modify_team_logout {
   display: flex;
-  position: relative;
-  top: 45px;
-  left: 350px;
 }
 
 .k_modify {
@@ -49,10 +47,24 @@
 .k_button {
   border: 0;
   border-radius: 10px;
-  font-size: 15px;
+  font-size: 12px;
+  background-color: #12406A;
+  color: white;
 }
 
-.k_pen_fancy, .k_sign_out {
+.k_pen_fancy, .k_sign_out, .k_top_check {
   margin-bottom: 3px;
 }
 
+.k_top_name_description {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.k_input {
+  margin-bottom: 10px;
+}
+
+.fa-users {
+  padding-bottom: 3px;
+}
